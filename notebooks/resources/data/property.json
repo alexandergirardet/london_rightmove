@@ -1,0 +1,249 @@
+{
+    "id": 142547498,
+    "bedrooms": 4,
+    "bathrooms": 5,
+    "numberOfImages": 28,
+    "numberOfFloorplans": 0,
+    "numberOfVirtualTours": 0,
+    "summary": "Stonehouse Lettings are delighted to offer the opportunity to Lease this impressive  detached family home which is available on a part furnished basis. All rooms offer comfortable and modern living throughout.  The welcoming central hallway allows access to most rooms within the property.  The main feature is the two separate staircases leading to the first floor along with the high vaulted ceilings.   The lounge is exceptionally spacious and overlooks the front and the rear of the property. The drawing room is generously proportioned and also overlooks the front. The dining kitchen has been fitted with a range of luxury base and wall units and comes complete with integrated appliances.  It should be noted the family room is on semi open plan.  Utility room and Cloakroom WC are also located on the ground floor. On the first floor there are 4 generously proportioned double bedrooms which all benefit from separate en suite facilities. The master bedroom is has been tastefully decorated and fitted with a range of wardrobes. A particular feature is the external balcony.  Externally the garden grounds are enclosed and mainly laid to lawn.  A large driveway leads to the detached double garage which is equipped with power and light.  Gas central heating and double glazed windows.  Early viewing is highly recommended.",
+    "displayAddress": "Kepplestone Gardens, West End, Aberdeen, AB15",
+    "countryCode": "GB",
+    "location": {
+        "latitude": 57.137373,
+        "longitude": -2.14488
+    },
+    "propertyImages": {
+        "images": [
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_00_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_00_0000.jpeg",
+                "caption": "Picture No. 36"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_01_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_01_0000.jpeg",
+                "caption": "Picture No. 07"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_02_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_02_0000.jpeg",
+                "caption": "Picture No. 12"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_03_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_03_0000.jpeg",
+                "caption": "Picture No. 13"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_04_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_04_0000.jpeg",
+                "caption": "Picture No. 10"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_05_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_05_0000.jpeg",
+                "caption": "Picture No. 11"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_06_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_06_0000.jpeg",
+                "caption": "Picture No. 08"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_07_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_07_0000.jpeg",
+                "caption": "Picture No. 09"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_08_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_08_0000.jpeg",
+                "caption": "Picture No. 24"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_09_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_09_0000.jpeg",
+                "caption": "Picture No. 25"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_10_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_10_0000.jpeg",
+                "caption": "Picture No. 26"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_11_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_11_0000.jpeg",
+                "caption": "Picture No. 27"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_12_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_12_0000.jpeg",
+                "caption": "Picture No. 28"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_13_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_13_0000.jpeg",
+                "caption": "Picture No. 29"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_14_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_14_0000.jpeg",
+                "caption": "Picture No. 16"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_15_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_15_0000.jpeg",
+                "caption": "Picture No. 17"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_16_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_16_0000.jpeg",
+                "caption": "Picture No. 18"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_17_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_17_0000.jpeg",
+                "caption": "Picture No. 19"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_18_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_18_0000.jpeg",
+                "caption": "Picture No. 20"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_19_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_19_0000.jpeg",
+                "caption": "Picture No. 22"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_20_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_20_0000.jpeg",
+                "caption": "Picture No. 23"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_21_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_21_0000.jpeg",
+                "caption": "Picture No. 30"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_22_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_22_0000.jpeg",
+                "caption": "Picture No. 31"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_23_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_23_0000.jpeg",
+                "caption": "Picture No. 32"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_24_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_24_0000.jpeg",
+                "caption": "Picture No. 15"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_25_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_25_0000.jpeg",
+                "caption": "Picture No. 14"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_26_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_26_0000.jpeg",
+                "caption": "Picture No. 34"
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_27_0000_max_476x317.jpeg",
+                "url": "90k/89488/142547498/89488_SLA140261_L_IMG_27_0000.jpeg",
+                "caption": "Picture No. 35"
+            }
+        ],
+        "mainImageSrc": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_00_0000_max_476x317.jpeg",
+        "mainMapImageSrc": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/90k/89488/142547498/89488_SLA140261_L_IMG_00_0000_max_296x197.jpeg"
+    },
+    "propertySubType": "Detached",
+    "listingUpdate": {
+        "listingUpdateReason": "new",
+        "listingUpdateDate": "2023-11-29T18:57:03Z"
+    },
+    "premiumListing": false,
+    "featuredProperty": true,
+    "price": {
+        "amount": 2915,
+        "frequency": "monthly",
+        "currencyCode": "GBP",
+        "displayPrices": [
+            {
+                "displayPrice": "\u00a32,915 pcm",
+                "displayPriceQualifier": ""
+            },
+            {
+                "displayPrice": "\u00a3673 pw",
+                "displayPriceQualifier": ""
+            }
+        ]
+    },
+    "customer": {
+        "branchId": 89488,
+        "brandPlusLogoURI": "/brand/brand_rmchoice_logo_89714_0002.jpeg",
+        "contactTelephone": "020 3840 3898",
+        "branchDisplayName": "DJ Alexander, Aberdeen",
+        "branchName": "Aberdeen",
+        "brandTradingName": "DJ Alexander",
+        "branchLandingPageUrl": "/estate-agents/agent/DJ-Alexander/Aberdeen-89488.html",
+        "development": false,
+        "showReducedProperties": true,
+        "commercial": false,
+        "showOnMap": true,
+        "enhancedListing": false,
+        "developmentContent": null,
+        "buildToRent": false,
+        "buildToRentBenefits": [],
+        "brandPlusLogoUrl": "https://media.rightmove.co.uk:443/dir/brand/brand_rmchoice_logo_89714_0002_max_100x50.jpeg"
+    },
+    "distance": null,
+    "transactionType": "rent",
+    "productLabel": {
+        "productLabelText": "",
+        "spotlightLabel": false
+    },
+    "commercial": false,
+    "development": false,
+    "residential": true,
+    "students": false,
+    "auction": false,
+    "feesApply": false,
+    "feesApplyText": null,
+    "displaySize": "",
+    "showOnMap": true,
+    "propertyUrl": "/properties/142547498#/?channel=RES_LET",
+    "contactUrl": "/property-to-rent/contactBranch.html?propertyId=142547498",
+    "staticMapUrl": null,
+    "channel": "RENT",
+    "firstVisibleDate": "2023-11-29T18:51:24Z",
+    "keywords": [],
+    "keywordMatchType": "no_keyword",
+    "saved": false,
+    "hidden": false,
+    "onlineViewingsAvailable": false,
+    "lozengeModel": {
+        "matchingLozenges": []
+    },
+    "hasBrandPlus": true,
+    "displayStatus": "",
+    "enquiredTimestamp": null,
+    "heading": "Featured Property",
+    "isRecent": false,
+    "enhancedListing": false,
+    "formattedBranchName": " by DJ Alexander, Aberdeen",
+    "formattedDistance": "",
+    "propertyTypeFullDescription": "4 bedroom detached house",
+    "addedOrReduced": "Added on 29/11/2023",
+    "feature_list": [
+        "* Unfurnished",
+        "* FOUR bedrooms",
+        "* West End Location",
+        "* Double Garage",
+        "* Garden",
+        "* Gas Central Heating",
+        "* landlord reg: 255737/100/1558",
+        "* Council Tax H"
+    ]
+}

@@ -1,0 +1,149 @@
+{
+    "id": 142659089,
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "numberOfImages": 9,
+    "numberOfFloorplans": 0,
+    "numberOfVirtualTours": 1,
+    "summary": "Property Reference: 1915996.This 2 bedroom house is in the popular area of Mugiemoss, Bucksburn and is available for let from the start of January 2024The property boasts an enviable location within an established community and with an easy commute to the city centre. Good quality laminate and carpet along with blinds and white goods are all included with the house. Upstairs there are two double bedrooms, one featuring a built in wardrobe. There is also a three piece bathroom suite upstairs with a shower over the bath and there is a separate downstairs cloakroom.The spacious open plan lounge/kitchen features a built in oven and hob, washer-dryer and fridge freezer.Outside there is a fully enclosed garden and also a residents parking area.A deposit of one month's rent is required and eligibility criteria will need to be met. This property is suitable for pets with an additional 50% deposit.\u00a0Scottish charity number: SCO44825, **some photos are for illustration purposes only**Summary & Exclusions:- Rent Amount: \u00a3632.42 per month (\u00a3145.94 per week)- Deposit / Bond: \u00a3632.41- 2 Bedrooms- 2 Bathrooms- Property comes unfurnished- Available to move in from 05 January, 2024- Maximum number of tenants is 3- DSS enquiries welcome- Students welcome to enquire- Pets considered / by arrangement- No Smokers- Family Friendly- Bills not included- Property has parking- Property has garden access- EPC Rating: B  If calling, please quote reference: 1915996  Fees:You will not be charged any admin fees. ** Contact today to book a viewing and have the landlord show you round! ** Request Details form responded to 24/7, with phone bookings available 9am-9pm, 7 days a week.OpenRent is on the Scottish Letting Agent Register, registration number LARN1809026The landlord is on the Scottish Landlord Register, registration number 453083/100/19571",
+    "displayAddress": "Mugiemoss Road, Aberdeen, AB21",
+    "countryCode": "GB",
+    "location": {
+        "latitude": 57.17924,
+        "longitude": -2.16878
+    },
+    "propertyImages": {
+        "images": [
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/97k/96668/142659089/96668_191599604122023_IMG_00_0000_max_476x317.jpeg",
+                "url": "97k/96668/142659089/96668_191599604122023_IMG_00_0000.jpeg",
+                "caption": null
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/97k/96668/142659089/96668_191599604122023_IMG_01_0000_max_476x317.jpeg",
+                "url": "97k/96668/142659089/96668_191599604122023_IMG_01_0000.jpeg",
+                "caption": null
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/97k/96668/142659089/96668_191599604122023_IMG_02_0000_max_476x317.jpeg",
+                "url": "97k/96668/142659089/96668_191599604122023_IMG_02_0000.jpeg",
+                "caption": null
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/97k/96668/142659089/96668_191599604122023_IMG_03_0000_max_476x317.jpeg",
+                "url": "97k/96668/142659089/96668_191599604122023_IMG_03_0000.jpeg",
+                "caption": null
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/97k/96668/142659089/96668_191599604122023_IMG_04_0000_max_476x317.jpeg",
+                "url": "97k/96668/142659089/96668_191599604122023_IMG_04_0000.jpeg",
+                "caption": null
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/97k/96668/142659089/96668_191599604122023_IMG_05_0000_max_476x317.jpeg",
+                "url": "97k/96668/142659089/96668_191599604122023_IMG_05_0000.jpeg",
+                "caption": null
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/97k/96668/142659089/96668_191599604122023_IMG_06_0000_max_476x317.jpeg",
+                "url": "97k/96668/142659089/96668_191599604122023_IMG_06_0000.jpeg",
+                "caption": null
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/97k/96668/142659089/96668_191599604122023_IMG_07_0000_max_476x317.jpeg",
+                "url": "97k/96668/142659089/96668_191599604122023_IMG_07_0000.jpeg",
+                "caption": null
+            },
+            {
+                "srcUrl": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/97k/96668/142659089/96668_191599604122023_IMG_08_0000_max_476x317.jpeg",
+                "url": "97k/96668/142659089/96668_191599604122023_IMG_08_0000.jpeg",
+                "caption": null
+            }
+        ],
+        "mainImageSrc": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/97k/96668/142659089/96668_191599604122023_IMG_00_0000_max_476x317.jpeg",
+        "mainMapImageSrc": "https://media.rightmove.co.uk:443/dir/crop/10:9-16:9/97k/96668/142659089/96668_191599604122023_IMG_00_0000_max_296x197.jpeg"
+    },
+    "propertySubType": "Terraced",
+    "listingUpdate": {
+        "listingUpdateReason": "new",
+        "listingUpdateDate": "2023-12-04T11:54:03Z"
+    },
+    "premiumListing": false,
+    "featuredProperty": false,
+    "price": {
+        "amount": 632,
+        "frequency": "monthly",
+        "currencyCode": "GBP",
+        "displayPrices": [
+            {
+                "displayPrice": "\u00a3632 pcm",
+                "displayPriceQualifier": ""
+            },
+            {
+                "displayPrice": "\u00a3146 pw",
+                "displayPriceQualifier": ""
+            }
+        ]
+    },
+    "customer": {
+        "branchId": 96668,
+        "brandPlusLogoURI": "/company/clogo_rmchoice_37106_0000.png",
+        "contactTelephone": "020 3322 3265",
+        "branchDisplayName": "OpenRent, London",
+        "branchName": "London",
+        "brandTradingName": "OpenRent",
+        "branchLandingPageUrl": "/estate-agents/agent/OpenRent/London-96668.html",
+        "development": false,
+        "showReducedProperties": true,
+        "commercial": false,
+        "showOnMap": true,
+        "enhancedListing": false,
+        "developmentContent": null,
+        "buildToRent": false,
+        "buildToRentBenefits": [],
+        "brandPlusLogoUrl": "https://media.rightmove.co.uk:443/dir/company/clogo_rmchoice_37106_0000_max_100x50.png"
+    },
+    "distance": null,
+    "transactionType": "rent",
+    "productLabel": {
+        "productLabelText": "",
+        "spotlightLabel": false
+    },
+    "commercial": false,
+    "development": false,
+    "residential": true,
+    "students": false,
+    "auction": false,
+    "feesApply": false,
+    "feesApplyText": null,
+    "displaySize": "",
+    "showOnMap": true,
+    "propertyUrl": "/properties/142659089#/?channel=RES_LET",
+    "contactUrl": "/property-to-rent/contactBranch.html?propertyId=142659089",
+    "staticMapUrl": null,
+    "channel": "RENT",
+    "firstVisibleDate": "2023-12-04T11:48:11Z",
+    "keywords": [],
+    "keywordMatchType": "no_keyword",
+    "saved": false,
+    "hidden": false,
+    "onlineViewingsAvailable": false,
+    "lozengeModel": {
+        "matchingLozenges": []
+    },
+    "hasBrandPlus": true,
+    "displayStatus": "",
+    "enquiredTimestamp": null,
+    "heading": "",
+    "isRecent": true,
+    "enhancedListing": false,
+    "formattedBranchName": " by OpenRent, London",
+    "formattedDistance": "",
+    "propertyTypeFullDescription": "2 bedroom terraced house",
+    "addedOrReduced": "Added today",
+    "feature_list": [
+        "No Agent Fees",
+        "Students Can Enquire",
+        "Property Reference Number: 1915996"
+    ]
+}
