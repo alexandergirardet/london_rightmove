@@ -13,6 +13,7 @@ class RightmoveScraperPipeline:
     def __init__(self):
         self.batch = []
 
+        # self.client = MongoClient("mongodb://localhost:27017/")
         self.client = MongoClient("mongodb://mongodb:27017/")
         db = self.client["rightmove"]
         self.collection = db["properties"]
@@ -31,7 +32,7 @@ class RightmoveScraperPipeline:
             self.collection.insert_many(self.batch)
             self.batch = []
 
-        return len(self.batch)
+        return item
 
     def close_spider(self, spider):
         print("SPIDER CLOSING...")
