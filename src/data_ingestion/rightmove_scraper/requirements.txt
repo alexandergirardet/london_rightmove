@@ -1,0 +1,5 @@
+scrapy
+pymongo
+scrapyd
+scrapyd-client
+beautifulsoup4

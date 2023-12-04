@@ -2,6 +2,7 @@ import scrapy
 import csv
 import pkgutil
 import io
+import logging
 
 from bs4 import BeautifulSoup
 
@@ -44,12 +45,12 @@ class RightmoveSpider(scrapy.Spider):
 
         print(self.rightmove_ids)
 
+        print("Number of IDs: ", len(self.rightmove_ids))
+
         self.fetched_outcodes = self.get_outcodes()
 
-        #
-        # conn.close()
-
     def start_requests(self):
+
         for codes in self.fetched_outcodes:
             rightmove_code = codes[1]
             postcode = codes[0]
@@ -107,11 +108,18 @@ class RightmoveSpider(scrapy.Spider):
         return outcodes
 
     def get_property_ids(self) -> list:
+        try:
+            client = MongoClient("mongodb://mongodb:27017/")
+            db = client["rightmove"]
+            # Access collection
+            collection = db["properties"]
+        except:
+            client = MongoClient("mongodb://localhost:27017/")
+            db = client["rightmove"]
+            # Access collection
+            collection = db["properties"]
 
-        client = MongoClient("mongodb://localhost:27017/")
-        db = client["rightmove"]
-        # Access collection
-        collection = db["properties"]
+        logging.info("Connected to MongoDB")
 
         rightmove_ids = collection.find({}, {"id": 1})
 

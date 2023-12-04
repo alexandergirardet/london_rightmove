@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+
+  mongodb:
+    build:
+      context: ./src/data_storage/mongodb/
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - development_network
+
+  scrapyapp:
+    build:
+      context: ./src/data_ingestion/rightmove_scraper/
+    depends_on:
+      - mongodb
+    ports:
+      - "6800:6800"
+    networks:
+      - development_network
+
+networks:
+  development_network:
+
+volumes:
+  mongodb_data:

@@ -8,27 +8,15 @@
 from itemadapter import ItemAdapter
 from pymongo import MongoClient
 import datetime
-
-
 class RightmoveScraperPipeline:
 
     def __init__(self):
         self.batch = []
 
-        # self.token = self.get_access_token()
+        self.client = MongoClient("mongodb://mongodb:27017/")
+        db = self.client["rightmove"]
+        self.collection = db["properties"]
 
-        self.client = MongoClient("mongodb://localhost:27017/")
-        self.db = self.client["rightmove"]
-        # Access collection
-        self.collection =self.db["properties"]
-
-
-        now = datetime.datetime.utcnow()
-
-        # The now instance is denominated in UTC 0 time for commonality over several time zones
-
-        self.ymdhm = f"{now.year}-{now.month}-{now.day}-{now.hour}-{now.minute}"
-        self.now_timestamp = int(now.timestamp())
     def process_item(self, item, spider):
         """
         Sending items to MongoDB in batches to reduce I/O operations
