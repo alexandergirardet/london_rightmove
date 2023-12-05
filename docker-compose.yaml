@@ -27,8 +27,7 @@ x-airflow-common:
     GCP_GCS_BUCKET: ${GCP_GCS_BUCKET:-}
 
   volumes:
-#    - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
-    - ./src/orchestration/airflow_app/dags:/opt/airflow/dags # Dags to be mounted
+    - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
     - /Users/alexandergirardet/.google/credentials:/opt/airflow/credentials
