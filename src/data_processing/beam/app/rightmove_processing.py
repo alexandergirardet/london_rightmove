@@ -10,6 +10,8 @@ import numpy as np
 import datetime
 from math import radians
 
+MONGO_DB_URL = "mongodb://mongodb:27017/"
+
 BATCH_SIZE = 50
 class ProcessElement(beam.DoFn):
 
@@ -107,12 +109,12 @@ class ProcessElement(beam.DoFn):
             yield property
 def run():
     with beam.Pipeline(options=PipelineOptions()) as pipeline:
-        (pipeline | "Read from Mongo" >> ReadFromMongoDB(uri='mongodb://localhost:27017',
+        (pipeline | "Read from Mongo" >> ReadFromMongoDB(uri=MONGO_DB_URL,
                            db='rightmove',
                            coll='properties') # Only return the id and the location
         | 'Batch Elements' >> beam.BatchElements(min_batch_size=BATCH_SIZE, max_batch_size=BATCH_SIZE)
         | 'Process each element' >> beam.ParDo(ProcessElement())
-        | 'Write to MongoDB' >> WriteToMongoDB(uri='mongodb://localhost:27017',
+        | 'Write to MongoDB' >> WriteToMongoDB(uri=MONGO_DB_URL,
                                                              db='rightmove',
                                                              coll='walk_score',
                                                              batch_size=10)

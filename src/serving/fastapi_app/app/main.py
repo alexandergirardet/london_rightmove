@@ -12,8 +12,10 @@ from pymongo import MongoClient
 
 app = FastAPI()
 
+MONGO_DB_URL = "mongodb://mongodb:27017/"
+
 def connect_to_client():
-    client = MongoClient("mongodb://localhost:27017/")
+    client = MongoClient(MONGO_DB_URL)
     return client
 
 def connect_to_db(client, db):

@@ -30,8 +30,8 @@ class RightmoveSpider(scrapy.Spider):
         #     host="postgres",
         #     database="rightmove",
         #     port=5432,
-        #     user='airflow',
-        #     password='airflow'
+        #     user='airflow_app',
+        #     password='airflow_app'
         # )
         #
         # cursor = conn.cursor()

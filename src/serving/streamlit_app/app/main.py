@@ -6,7 +6,7 @@ import requests
 st.title('UK Rightmove properties')
 
 DATE_COLUMN = 'date_updated'
-DATA_URL = ('http://localhost:8000/properties')
+DATA_URL = 'http://fastapi_app:80/properties'
 @st.cache_data
 def load_data(nrows):
 
