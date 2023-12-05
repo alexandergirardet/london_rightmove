@@ -75,3 +75,5 @@ __pycache__/
 *.py[cod]
 *$py.class
 *.egg-info
+/src/serving/fastapi_app/tests/.benchmarks/
+/src/serving/fastapi_app/tests/.pytest_cache/

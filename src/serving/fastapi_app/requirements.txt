@@ -1,0 +1,7 @@
+fastapi
+pydantic
+uvicorn
+scipy
+pandas
+numpy
+pymongo
