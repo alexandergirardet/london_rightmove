@@ -42,6 +42,9 @@ def get_df():
     # Convert to Pandas DataFrame
     df = pd.DataFrame(list(data))
 
+    df['latitude'] = df['location'].apply(lambda x: x['latitude'])
+    df['longitude'] = df['location'].apply(lambda x: x['longitude'])
+
     client.close()
 
     return df

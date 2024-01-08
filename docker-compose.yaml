@@ -55,6 +55,8 @@ services:
       context: ./src/data_ingestion/rightmove_scraper/
     depends_on:
       - mongodb
+    volumes:
+      - scrapyd_data:/var/lib/scrapyd
     ports:
       - "6800:6800"
     networks:
@@ -262,3 +264,4 @@ networks:
 volumes:
   mongodb_data:
   postgres-db-volume:
+  scrapyd_data:

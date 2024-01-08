@@ -16,6 +16,8 @@ def load_data(nrows):
     data['date_updated'] = pd.to_datetime(data['date_updated'])
     return data
 
+
+
 data_load_state = st.text('Loading data...')
 # Load 10,000 rows of data into the dataframe.
 data = load_data(1000)
@@ -26,7 +28,6 @@ st.subheader('Raw data')
 st.write(data)
 
 st.subheader('Yearly price histogram')
-
 
 bedrooms = st.slider('bedrooms', 0, 12, 2)
 
