@@ -1,3 +1,4 @@
+import os
 from typing import Union
 
 from fastapi import FastAPI
@@ -12,7 +13,9 @@ from pymongo import MongoClient
 
 app = FastAPI()
 
-MONGO_DB_URL = "mongodb://mongodb:27017/"
+# MONGO_DB_URL = "mongodb://mongodb:27017/"
+
+MONGO_DB_URL = os.environ['MONGO_DB_URL']
 
 def connect_to_client():
     client = MongoClient(MONGO_DB_URL)

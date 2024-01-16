@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-deployment
+  labels:
+    app: fastapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastapi
+  template:
+    metadata:
+      labels:
+        app: fastapi
+    spec:
+      containers:
+      - name: webapp
+        image: alexgirardet123/fastapi:latest
+        ports:
+        - containerPort: 80
+        env:
+          - name: MONGO_DB_URL
+            valueFrom:
+              configMapKeyRef:
+                name: mongo-config
+                key: mongo-url
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-service # End point to access fastapi
+spec:
+  type: NodePort # External Service type
+  selector: # Selects the pods to forward the requests to. Forwards to pods by their label.
+    app: fastapi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80 # The port of the pods that belong to the service. The target port should be the same as container port
+      nodePort: 30100 # Port to access the service from outside the cluster
