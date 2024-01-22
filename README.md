@@ -1,8 +1,9 @@
 # UK Rightmove
 Data Engineering batch processing project extracting and enhancing Rightmove data for downstream analysis and ML use cases. This project showcases a comprehensive data engineering pipeline focused on batch processing of Rightmove data, a prominent UK real estate website. The aim is to extract valuable information from Rightmove, enhance it for downstream analysis, and prepare it for machine learning applications. The pipeline encompasses various stages from data extraction to serving a front-end application, demonstrating a holistic approach to handling and presenting real estate data.
 
+![image](https://github.com/alexandergirardet/london_rightmove/blob/main/Rightmove%20extraction.png)
+
 # Productionized Web Scraping with Scrapy and Scrapyd 
-![image](https://github.com/alexandergirardet/london_rightmove/assets/123730494/49c28915-f7ca-4c6b-8512-558dfa4af9b3)
 Utilizing Scrapy, a powerful Python framework for web crawling, the project starts by extracting real estate listings from Rightmove. Scrapy is built on Twisted, an asynchronous networking framework. Asynchronous processing means Scrapy can handle large amounts of requests and data without blocking or waiting for each request to be completed. This allows us to extract a large amount of data in a short amount of time. We are also able to configure rate limits to avoid overloading Rightmove's servers.
 
 ## Server Hosting with Scrapy
