@@ -26,20 +26,6 @@ class RightmoveSpider(scrapy.Spider):
             'sec-ch-ua-platform': '"macOS"'
         }
 
-        # conn = psycopg2.connect(
-        #     host="postgres",
-        #     database="rightmove",
-        #     port=5432,
-        #     user='airflow_app',
-        #     password='airflow_app'
-        # )
-        #
-        # cursor = conn.cursor()
-        #
-        # cursor.execute("SELECT rightmove_id FROM rightmove_landing_zone")
-        #
-        # fetched_ids = cursor.fetchall()
-        #
         self.rightmove_ids = self.get_property_ids()
 
         print(self.rightmove_ids)

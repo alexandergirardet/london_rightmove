@@ -59,7 +59,7 @@ def cancel_spider(**kwargs):
     return "Success"
 
 def repeated_requests(**kwargs):
-    end_time = datetime.now() + timedelta(seconds=90)
+    end_time = datetime.now() + timedelta(seconds=900) # 15 minute scraping session
 
     url = f"http://scrapyapp:6800/listjobs.json?project={PROJECT}"
 
@@ -81,6 +81,11 @@ def repeated_requests(**kwargs):
 
                 if job_id in [job['id'] for job in running_jobs]:
                     print("Job is running")
+
+            elif response.json()['status'] == 'error':
+                print("Scrapy status is error")
+                print(response.json()['message'])
+                raise ValueError("Scrapy status is error")
             else:
                 print(response.text)
 

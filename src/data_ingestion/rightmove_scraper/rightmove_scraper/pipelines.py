@@ -8,13 +8,14 @@
 from itemadapter import ItemAdapter
 from pymongo import MongoClient
 import datetime
+
+MONGO_URL = "mongodb://mongodb:27017/"
 class RightmoveScraperPipeline:
 
     def __init__(self):
         self.batch = []
 
-        # self.client = MongoClient("mongodb://localhost:27017/")
-        self.client = MongoClient("mongodb://mongodb:27017/")
+        self.client = MongoClient(MONGO_URL)
         db = self.client["rightmove"]
         self.collection = db["properties"]
 
