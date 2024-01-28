@@ -1,3 +1,5 @@
+import os
+
 from apache_beam.io.mongodbio import ReadFromMongoDB, WriteToMongoDB
 
 import apache_beam as beam
@@ -10,7 +12,12 @@ import numpy as np
 import datetime
 from math import radians
 
-MONGO_DB_URL = "mongodb://mongodb:27017/"
+if os.environ.get('docker'):
+    MONGO_DB_URL = "mongodb://mongodb:27017/"
+else:
+    MONGO_DB_URL = "mongodb://localhost:27017/"
+
+print(MONGO_DB_URL)
 
 BATCH_SIZE = 50
 class ProcessElement(beam.DoFn):
@@ -77,7 +84,7 @@ class ProcessElement(beam.DoFn):
         return scores_dict
     def setup(self):
         self.earth_radius = 6371000  # Earth radius in metres
-        self.pois_df = pd.read_csv("../resources/data/London_pois.csv", index_col=0)
+        self.pois_df = pd.read_parquet("../resources/data/UK_pois.parquet")
         self.ball_tree = BallTree(self.pois_df[['lon_rad', 'lat_rad']].values, metric='haversine')  # What is the ball tree doing?
         self.amenity_weights = {
             "grocery": [3],
@@ -116,7 +123,7 @@ def run():
         | 'Process each element' >> beam.ParDo(ProcessElement())
         | 'Write to MongoDB' >> WriteToMongoDB(uri=MONGO_DB_URL,
                                                              db='rightmove',
-                                                             coll='walk_score',
+                                                             coll='walk_scores',
                                                              batch_size=10)
                                               )
 
