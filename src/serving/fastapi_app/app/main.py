@@ -1,11 +1,14 @@
 import os
+from http.client import HTTPException
 from typing import Union
 
 from fastapi import FastAPI
 
 from pydantic import BaseModel
 
-from scipy.stats import zscore
+# from scipy.stats import zscore
+
+import mlflow
 
 import pandas as pd
 
@@ -13,9 +16,36 @@ from pymongo import MongoClient
 
 app = FastAPI()
 
+mlflow.set_tracking_uri("http://localhost:8090")
+# mlflow.set_tracking_uri("sqlite:///mlflow.db") # Local Database
+mlflow.set_experiment("rightmove-rent-prediction")
+
 # MONGO_DB_URL = "mongodb://mongodb:27017/"
 
-MONGO_DB_URL = os.environ['MONGO_DB_URL']
+MONGO_DB_URL = os.environ.get('MONGO_DB_URL')
+
+model_name = "Random Forest Regression"
+model_uri = f"models:/{model_name}/Staging"
+
+# Load the model as a PyFunc model
+model = mlflow.pyfunc.load_model(model_uri)
+
+class Property(BaseModel):
+    bedrooms: float
+    bathrooms: float
+    longitude: float
+    latitude: float
+    walk_score: float
+@app.post("/predict")
+def predict_rent(input_property: Property):
+    try:
+        # Make a prediction
+        features_df = pd.DataFrame(input_property.dict(), index=[0])
+        prediction = model.predict(features_df)
+        return {"prediction": prediction[0]}
+
+    except Exception as e:
+        raise HTTPException()
 
 def connect_to_client():
     client = MongoClient(MONGO_DB_URL)
