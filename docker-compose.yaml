@@ -52,7 +52,7 @@ services:
 
   scrapyapp:
     build:
-      context: ./src/data_ingestion/rightmove_scraper/
+      context: app/data_ingestion/rightmove_scraper/
     depends_on:
       - mongodb
     volumes:
@@ -64,7 +64,7 @@ services:
 
   streamlit_app:
     build:
-      context: ./src/serving/streamlit_app/
+      context: app/dashboard/streamlit_app/
     depends_on:
       - mongodb
     ports:
@@ -74,7 +74,7 @@ services:
 
   fastapi_app:
     build:
-      context: ./src/serving/fastapi_app/
+      context: app/dashboard/fastapi_app/
     depends_on:
       - mongodb
     ports:
