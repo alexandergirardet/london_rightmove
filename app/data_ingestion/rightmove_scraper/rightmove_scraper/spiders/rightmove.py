@@ -1,11 +1,25 @@
+import logging
+
 import scrapy
+import os
 import csv
 import pkgutil
+import requests
 import io
+
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 from bs4 import BeautifulSoup
 
 from pymongo import MongoClient
+
+if os.environ.get("MONGO_URL"):
+    MONGO_URL = os.environ.get("MONGO_URL")
+else:
+    logging.ERROR("Please set a Mongo URL as an environment variable as MONGO_URL")
 
 class RightmoveSpider(scrapy.Spider):
     name = 'rightmove'
@@ -79,28 +93,45 @@ class RightmoveSpider(scrapy.Spider):
 
         yield item
 
-    def get_outcodes(self) -> list:
-        csv_data = pkgutil.get_data("rightmove_scraper", "resources/data/rightmove_outcodes.csv")
+    # def get_outcodes(self) -> list:
+    #
+    #     logger.debug("Accessing CSV data at path: rightmove_scraper/resources/data/rightmove_outcodes.csv")
+    #
+    #     csv_data = pkgutil.get_data("rightmove_scraper", "resources/data/rightmove_ocodes.csv")
+    #
+    #     # Convert binary data to a text stream
+    #     csv_text = io.StringIO(csv_data.decode('utf-8'))
+    #
+    #     # Read CSV data
+    #     reader = csv.reader(csv_text)
+    #     outcodes = list(reader)
+    #     outcodes = outcodes[1:]
+    #     outcodes = [(outcode[1], outcode[2]) for outcode in outcodes]
+    #     return outcodes
 
-        # Convert binary data to a text stream
-        csv_text = io.StringIO(csv_data.decode('utf-8'))
+    def get_outcodes(self):
+        # URL of the CSV file in the public GCS bucket
+        csv_url = "https://storage.googleapis.com/rightmove-resources-public/rightmove_outcodes.csv"
 
-        # Read CSV data
-        reader = csv.reader(csv_text)
-        outcodes = list(reader)
-        outcodes = outcodes[1:]
-        outcodes = [(outcode[1], outcode[2]) for outcode in outcodes]
-        return outcodes
+        # Download the CSV file
+        response = requests.get(csv_url)
+        if response.status_code == 200:
+            # Convert binary data to a text stream
+            csv_text = io.StringIO(response.content.decode('utf-8'))
+
+            # Read CSV data
+            reader = csv.reader(csv_text)
+            outcodes = list(reader)
+            outcodes = outcodes[1:]  # Skip header row
+            outcodes = [(outcode[1], outcode[2]) for outcode in outcodes]
+            return outcodes
+        else:
+            print("Failed to download CSV file")
+            return []
 
     def get_property_ids(self) -> list:
-        # try:
-        #     client = MongoClient("mongodb://mongodb:27017/")
-        #     db = client["rightmove"]
-        #     # Access collection
-        #     collection = db["properties"]
-        # except:
 
-        client = MongoClient( "mongodb://mongodb:27017/")
+        client = MongoClient(MONGO_URL)
         # client = MongoClient("mongodb://localhost:27017/")
         db = client["rightmove"]
         # Access collection
