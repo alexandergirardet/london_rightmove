@@ -1,4 +1,4 @@
-from data_processing.DataPreprocessor import DataPreprocessor
+from app.backend.data_processing import DataPreprocessor
 
 preprocessor = DataPreprocessor()
 

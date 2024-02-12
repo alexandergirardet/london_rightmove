@@ -1,14 +1,12 @@
 import os
 from datetime import datetime, timedelta
-import time
 
 from pymongo import MongoClient
 import xgboost as xgb
 import pandas as pd
-import requests
 from sklearn.model_selection import train_test_split
 
-from src.data_processing import DataPreprocessor
+from app.backend.data_processing import DataPreprocessor
 from sklearn.metrics import mean_squared_error
 
 from airflow import DAG

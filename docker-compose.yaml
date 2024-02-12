@@ -1,22 +1,16 @@
 version: "3.8"
 
 x-airflow-common:
-  # In order to add custom dependencies or upgrade provider packages you can use your extended image.
-  # Comment the image line, place your Dockerfile in the directory where you placed the docker-compose.yaml
-  # and uncomment the "build" line below, Then run `docker-compose build` to build the images.
   &airflow-common
   build:
-    context: ./src/orchestration/airflow_app/
+    context: ./rightmove/orchestration/airflow_app/
   env_file:
     - .env
   environment:
     &airflow-common-env
     AIRFLOW__CORE__EXECUTOR: LocalExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-    # For backward compatibility, with Airflow <2.3
     AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-    # AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
-    # AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
     AIRFLOW__CORE__FERNET_KEY: ''
     AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
@@ -37,58 +31,56 @@ x-airflow-common:
     postgres:
       condition: service_healthy
   networks:
-    - development_network
+    - backend
 
 services:
   mongodb:
-    build:
-      context: ./src/data_storage/mongodb/
+    image: mongo:latest
     volumes:
       - mongodb_data:/data/db
     ports:
       - "27017:27017"
     networks:
-      - development_network
+      - backend
 
-  scrapyapp:
+  scrapy_app:
     build:
-      context: app/data_ingestion/rightmove_scraper/
+      context: ./rightmove/data_ingestion/rightmove_scraper/
     depends_on:
       - mongodb
-    volumes:
-      - scrapyd_data:/var/lib/scrapyd
     ports:
       - "6800:6800"
     networks:
-      - development_network
+      - backend
 
   streamlit_app:
     build:
-      context: app/dashboard/streamlit_app/
+      context: ./rightmove/dashboard/
     depends_on:
       - mongodb
     ports:
       - "8501:8501"
     networks:
-      - development_network
+      - frontend
 
-  fastapi_app:
-    build:
-      context: app/dashboard/fastapi_app/
-    depends_on:
-      - mongodb
-    ports:
-      - "80:80"
-    networks:
-      - development_network
+#  fastapi_app:
+#    build:
+#      context: ./rightmove/backend/
+#    depends_on:
+#      - mongodb
+#    ports:
+#      - "8000:8000"
+#    networks:
+#      - frontend
+#      - backend
 
   beam_app:
     build:
-      context: ./src/data_processing/beam/
+      context: ./rightmove/beam/
     depends_on:
       - mongodb
     networks:
-      - development_network
+      - backend
 
   postgres:
     image: postgres:13
@@ -104,7 +96,7 @@ services:
       retries: 5
     restart: always
     networks:
-      - development_network
+      - backend
 
   airflow-webserver:
     <<: *airflow-common
@@ -249,19 +241,14 @@ services:
     environment:
       <<: *airflow-common-env
       CONNECTION_CHECK_MAX_COUNT: "0"
-    # Workaround for entrypoint issue. See: https://github.com/apache/airflow/issues/16252
     command:
       - bash
       - -c
       - airflow
-  # You can enable flower by adding "--profile flower" option e.g. docker-compose --profile flower up
-  # or by explicitly targeted on the command line e.g. docker-compose up flower.
-  # See: https://docs.docker.com/compose/profiles/
-
 networks:
-  development_network:
+  backend:
+  frontend:
 
 volumes:
   mongodb_data:
   postgres-db-volume:
-  scrapyd_data:

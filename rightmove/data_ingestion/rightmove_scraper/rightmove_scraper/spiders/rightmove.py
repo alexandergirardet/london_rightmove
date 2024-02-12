@@ -1,9 +1,6 @@
-import logging
-
 import scrapy
 import os
 import csv
-import pkgutil
 import requests
 import io
 
@@ -16,10 +13,7 @@ from bs4 import BeautifulSoup
 
 from pymongo import MongoClient
 
-if os.environ.get("MONGO_URL"):
-    MONGO_URL = os.environ.get("MONGO_URL")
-else:
-    logging.ERROR("Please set a Mongo URL as an environment variable as MONGO_URL")
+MONGO_URL = "mongodb://mongodb:27017/"
 
 class RightmoveSpider(scrapy.Spider):
     name = 'rightmove'
@@ -92,22 +86,6 @@ class RightmoveSpider(scrapy.Spider):
         item['summary'] = summary
 
         yield item
-
-    # def get_outcodes(self) -> list:
-    #
-    #     logger.debug("Accessing CSV data at path: rightmove_scraper/resources/data/rightmove_outcodes.csv")
-    #
-    #     csv_data = pkgutil.get_data("rightmove_scraper", "resources/data/rightmove_ocodes.csv")
-    #
-    #     # Convert binary data to a text stream
-    #     csv_text = io.StringIO(csv_data.decode('utf-8'))
-    #
-    #     # Read CSV data
-    #     reader = csv.reader(csv_text)
-    #     outcodes = list(reader)
-    #     outcodes = outcodes[1:]
-    #     outcodes = [(outcode[1], outcode[2]) for outcode in outcodes]
-    #     return outcodes
 
     def get_outcodes(self):
         # URL of the CSV file in the public GCS bucket

@@ -1,0 +1,40 @@
+version: "3.8"
+services:
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - development_network
+
+  scrapyapp:
+    build:
+      context: ./app/data_ingestion/rightmove_scraper/
+    depends_on:
+      - mongodb
+    volumes:
+      - scrapyd_data:/var/lib/scrapyd
+    ports:
+      - "6800:6800"
+    networks:
+      - development_network
+
+  streamlit_app:
+    build:
+      context: ./app/dashboard/
+    depends_on:
+      - mongodb
+    ports:
+      - "8501:8501"
+    networks:
+      - development_network
+
+networks:
+  development_network:
+
+volumes:
+  mongodb_data:
+  postgres-db-volume:
+  scrapyd_data:

@@ -1,14 +1,15 @@
 from datetime import datetime, timedelta
 import time
 import requests
+import logging
 
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.dummy_operator import DummyOperator
 
-SCRAPYD_ENDPOINT = "http://scrapyapp:6800/schedule.json"
+SCRAPYD_ENDPOINT = "http://scrapy_app:6800"
 SPIDER = "rightmove"
-PROJECT = "rightmove_scraper"
+PROJECT = "scraper"
 
 def start_spider():
     payload = f"project={PROJECT}&spider={SPIDER}"
@@ -16,15 +17,15 @@ def start_spider():
         'Content-Type': 'application/x-www-form-urlencoded'
     }
 
-    response = requests.request("POST", SCRAPYD_ENDPOINT, headers=headers, data=payload)
+    url = SCRAPYD_ENDPOINT + "/schedule.json"
 
-    print(response.text)
+    response = requests.request("POST", url, headers=headers, data=payload)
+
     if response.status_code == 200:
-        print("Request successful")
+        logging.info("Request successful")
         if response.json()['status'] == 'ok':
-            print("Job started")
+            logging.info("Spider started successfully")
             job_id = response.json()['jobid']
-            print("Job id:", job_id)
             return job_id
     else:
         print(response.text)
@@ -41,7 +42,9 @@ def cancel_spider(**kwargs):
 
     }
 
-    url = "http://scrapyapp:6800/cancel.json"
+    # url = "http://scrapy_app:6800/cancel.json"
+
+    url = SCRAPYD_ENDPOINT + "/cancel.json"
 
     response = requests.request("POST", url, headers=headers, data=payload)
 
@@ -61,7 +64,9 @@ def cancel_spider(**kwargs):
 def repeated_requests(**kwargs):
     end_time = datetime.now() + timedelta(seconds=900) # 15 minute scraping session
 
-    url = f"http://scrapyapp:6800/listjobs.json?project={PROJECT}"
+    # url = f"http://scrapyapp:6800/listjobs.json?project={PROJECT}"
+
+    url = SCRAPYD_ENDPOINT + "/listjobs.json?project=" + PROJECT
 
     payload = {}
     headers = {}
