@@ -7,10 +7,13 @@ from datetime import datetime, timedelta
 import geopandas
 import matplotlib.pyplot as plt
 import json
+import seaborn as sns
+import plotly.express as px
 
 @st.cache_data
 def load_data():
-    df = pd.read_parquet("/Users/alexander.girardet/Code/Personal/projects/rightmove_project/rightmove/backend/app/data.parquet")    #
+    df = pd.read_parquet("/Users/alexander.girardet/Code/Personal/projects/rightmove_project/rightmove/backend/app/data.parquet")
+    df['monthly_price'] = df['price'] / 12
     return df
 
 def get_recents(subset, days):
@@ -30,19 +33,47 @@ def get_recents(subset, days):
     total_rows = len(in_between_rows)
     return total_rows
 
-def get_walk_score(subset):
-    return subset['walk_score'].mean()
+def plot_bedrooms_distribution(df):
+    # Determine the maximum number of bedrooms to set appropriate bins
+    max_bedrooms = df['bedrooms'].max()
+    fig = px.histogram(df, x='bedrooms', title='Distribution of Bedrooms')
+    fig.update_layout(
+        xaxis=dict(title='Number of Bedrooms', tickmode='linear', dtick=1),
+        yaxis_title="Number of Properties",
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    return fig
+
+def plot_bathrooms_distribution(df):
+    # Determine the maximum number of bathrooms to set appropriate bins
+    max_bathrooms = df['bathrooms'].max()
+    fig = px.histogram(df, x='bathrooms', title='Distribution of Bathrooms')
+    fig.update_layout(
+        xaxis=dict(title='Number of Bathrooms', tickmode='linear', dtick=1),
+        yaxis_title="Number of Properties",
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    return fig
+
+def plot_price_density(df):
+    fig = px.histogram(df, x='monthly_price', title='Distribution of Monthly Rental Prices')
+    fig.update_layout(
+        xaxis_title="Rental Price",
+        yaxis_title="Number of Properties",
+        plot_bgcolor='rgba(0,0,0,0)'
+    )
+    return fig
 
 df = load_data()
 
-min_price, max_price = st.slider(
-    'Select a price range:',
-    min_value=int(df['price'].min()),  # Minimum value for the slider
-    max_value=int(df['price'].max()),  # Maximum value for the slider
-    value=(int(df['price'].min()), int(df['price'].max()))  # Initial range (min, max)
+min_price, max_price = st.sidebar.slider(
+    'Select a monthly rental price range:',
+    min_value=int(df['monthly_price'].min()),  # Minimum value for the slider
+    max_value=int(df['monthly_price'].max()),  # Maximum value for the slider
+    value=(int(df['monthly_price'].min()), int(df['monthly_price'].max()))  # Initial range (min, max)
 )
 
-subset = df[(df['price'] >= min_price) & (df['price'] <= max_price)]
+subset = df[(df['monthly_price'] >= min_price) & (df['monthly_price'] <= max_price)]
 
 # Streamlit UI
 col1, col2, col3 = st.columns(3)
@@ -57,14 +88,12 @@ properties_yesterday = get_recents(subset, 2)  # Last 1 day
 # Display metric in the second column, restrict to 2 decimal places
 col2.metric(label="Properties Added Since Yesterday", value=f"{properties_yesterday}")
 
-# Calculate average walk score
-walk_score = get_walk_score(subset)
+# Calculate the total number of properties
+total_properties = len(subset)
 # Display metric in the third column, restrict to 2 decimal places
-col3.metric(label="Average Walk Score", value=f"{walk_score:.2f}")
+col3.metric(label="Total Properties", value=f"{total_properties}")
 
-
-
-st.write("All properties map")
+st.header("Property Distribution Map")
 layer = pdk.Layer(
     'HexagonLayer',  # `type` positional argument is here
     subset[['longitude', 'latitude']],  # `data` positional argument is here
@@ -88,5 +117,19 @@ view_state = pdk.ViewState(
 
 # Combine everything and render a viewport
 r = pdk.Deck(layers=[layer], initial_view_state=view_state)
-
+st.info("The map displays the distribution of properties based on their location. The higher the concentration of properties, the higher the elevation.")
 st.pydeck_chart(r)
+
+st.header("Histogram and Density Plots of Property Features")
+
+st.info("The following plots provide a visual representation of the distribution of property features such as bedrooms, bathrooms, and rental prices.")
+
+col1, col2 = st.columns(2)
+with col1:
+    st.plotly_chart(plot_bedrooms_distribution(subset), use_container_width=True)
+with col2:
+    st.plotly_chart(plot_bathrooms_distribution(subset), use_container_width=True)
+
+# Density plot for price
+st.plotly_chart(plot_price_density(subset), use_container_width=True)
+

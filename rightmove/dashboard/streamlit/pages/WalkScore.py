@@ -60,6 +60,13 @@ def calculate_amenity_walk_score(distances, amenity_weights):
         total_score += amenity_score
     return total_score
 
+# def get_walk_score(subset):
+#     return subset['walk_score'].mean()
+#
+# # walk_score = get_walk_score(subset)
+# # Display metric in the third column, restrict to 2 decimal places
+# col3.metric(label="Average Walk Score", value=f"{walk_score:.2f}")
+
 amenity_weights = {
             "grocery": [3],
             "restaurants": [3],
