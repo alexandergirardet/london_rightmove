@@ -16,9 +16,11 @@ from pymongo import MongoClient
 
 app = FastAPI()
 
-mlflow.set_tracking_uri("http://localhost:8090")
-# mlflow.set_tracking_uri("sqlite:///mlflow.db") # Local Database
-mlflow.set_experiment("rightmove-rent-prediction")
+import mlflow
+
+mlflow.set_tracking_uri("postgresql+psycopg2://airflow:airflow@localhost:5432/mlflow")
+experiment_name = "rightmove-rent-prediction"
+mlflow.set_experiment(experiment_name)
 
 # MONGO_DB_URL = "mongodb://mongodb:27017/"
 

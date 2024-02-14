@@ -53,15 +53,15 @@ services:
     networks:
       - backend
 
-  streamlit_app:
-    build:
-      context: ./rightmove/dashboard/
-    depends_on:
-      - mongodb
-    ports:
-      - "8501:8501"
-    networks:
-      - frontend
+#  streamlit_app:
+#    build:
+#      context: ./rightmove/dashboard/
+#    depends_on:
+#      - mongodb
+#    ports:
+#      - "8501:8501"
+#    networks:
+#      - frontend
 
 #  fastapi_app:
 #    build:
@@ -94,6 +94,8 @@ services:
       test: [ "CMD", "pg_isready", "-U", "airflow" ]
       interval: 5s
       retries: 5
+    ports:
+      - "5432:5432"
     restart: always
     networks:
       - backend
