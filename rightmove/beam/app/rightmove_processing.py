@@ -12,17 +12,28 @@ import numpy as np
 import datetime
 from math import radians
 
+from pymongo import MongoClient
+
 if os.environ.get('docker'):
     MONGO_DB_URL = "mongodb://mongodb:27017/"
 else:
     MONGO_DB_URL = "mongodb://localhost:27017/"
 
 GCS_PARQUET_URL = "https://storage.googleapis.com/rightmove-resources-public/UK_pois.parquet"
+WALK_SCORES_COLLECTION = "walk_scores"
 
 print(MONGO_DB_URL)
 
 BATCH_SIZE = 50
 class ProcessElement(beam.DoFn):
+
+    def fetch_current_ids(self):
+        client = MongoClient(MONGO_DB_URL)
+        db = client["rightmove"]
+        collection = db[WALK_SCORES_COLLECTION]
+        query = {}
+        data = collection.find(query, {"id": 1})
+        return [x['id'] for x in list(data)]
 
     def process_results_df(self, distance_series, pois_df):
         results_df = pd.DataFrame(distance_series)
@@ -99,23 +110,28 @@ class ProcessElement(beam.DoFn):
             "books": [1],
             "entertainment": [1],
         }
+        self.processed_ids = self.fetch_current_ids()
     def process(self, element): #TODO: ADD ID processing to avoid duplicate processing
         logging.info(f"Processing element: {len(element)}")
         for ele in element:
-            property = {
-                "id": ele['id'],
-                "location": ele['location']
-            }
-            logging.info(f"Processing property: {property}")
-            scores_dict = self.calculuate_walk_score(property, self.ball_tree, self.amenity_weights, self.pois_df)
-            walk_score = sum(scores_dict.values()) * 6.67
-            scores_dict['walk_score'] = walk_score
+            if ele['id'] not in self.processed_ids:
+                property = {
+                    "id": ele['id'],
+                    "location": ele['location']
+                }
+                logging.info(f"Processing property: {property}")
+                scores_dict = self.calculuate_walk_score(property, self.ball_tree, self.amenity_weights, self.pois_df)
+                walk_score = sum(scores_dict.values()) * 6.67
+                scores_dict['walk_score'] = walk_score
 
-            property['scores'] = scores_dict
+                property['scores'] = scores_dict
 
-            property['processing_timestamp'] = datetime.datetime.utcnow().timestamp()
+                property['processing_timestamp'] = datetime.datetime.utcnow().timestamp()
 
-            yield property
+                yield property
+            else:
+                logging.info(f"Property already processed: {ele['id']}")
+                continue
 def run():
     with beam.Pipeline(options=PipelineOptions()) as pipeline:
         (pipeline | "Read from Mongo" >> ReadFromMongoDB(uri=MONGO_DB_URL,
@@ -125,7 +141,7 @@ def run():
         | 'Process each element' >> beam.ParDo(ProcessElement())
         | 'Write to MongoDB' >> WriteToMongoDB(uri=MONGO_DB_URL,
                                                              db='rightmove',
-                                                             coll='walk_score',
+                                                             coll=WALK_SCORES_COLLECTION,
                                                              batch_size=10)
                                               )
 
