@@ -7,15 +7,17 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 from pymongo import MongoClient
+import os
 import datetime
 
-MONGO_URL = "mongodb://mongodb:27017/"
+# MONGO_URL = "mongodb://mongodb:27017/"
+MONGO_URI = os.environ.get("MONGO_URI")
 class RightmoveScraperPipeline:
 
     def __init__(self):
         self.batch = []
 
-        self.client = MongoClient(MONGO_URL)
+        self.client = MongoClient(MONGO_URI)
         db = self.client["rightmove"]
         self.collection = db["properties"]
 

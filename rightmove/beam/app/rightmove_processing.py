@@ -14,21 +14,21 @@ from math import radians
 
 from pymongo import MongoClient
 
-if os.environ.get('docker'):
-    MONGO_DB_URL = "mongodb://mongodb:27017/"
-else:
-    MONGO_DB_URL = "mongodb://localhost:27017/"
+from dotenv import load_dotenv
+load_dotenv("/Users/alexander.girardet/Code/Personal/projects/rightmove_project/.env")
+
+MONGO_URI = os.environ.get("MONGO_URI")
 
 GCS_PARQUET_URL = "https://storage.googleapis.com/rightmove-resources-public/UK_pois.parquet"
 WALK_SCORES_COLLECTION = "walk_scores"
 
-print(MONGO_DB_URL)
+print(MONGO_URI)
 
 BATCH_SIZE = 50
 class ProcessElement(beam.DoFn):
 
     def fetch_current_ids(self):
-        client = MongoClient(MONGO_DB_URL)
+        client = MongoClient(MONGO_URI)
         db = client["rightmove"]
         collection = db[WALK_SCORES_COLLECTION]
         query = {}
@@ -134,15 +134,17 @@ class ProcessElement(beam.DoFn):
                 continue
 def run():
     with beam.Pipeline(options=PipelineOptions()) as pipeline:
-        (pipeline | "Read from Mongo" >> ReadFromMongoDB(uri=MONGO_DB_URL,
+        (pipeline | "Read from Mongo" >> ReadFromMongoDB(uri=MONGO_URI,
                            db='rightmove',
-                           coll='properties') # Only return the id and the location
+                           coll='properties',
+                        bucket_auto=True) # Only return the id and the location
         | 'Batch Elements' >> beam.BatchElements(min_batch_size=BATCH_SIZE, max_batch_size=BATCH_SIZE)
         | 'Process each element' >> beam.ParDo(ProcessElement())
-        | 'Write to MongoDB' >> WriteToMongoDB(uri=MONGO_DB_URL,
+        | 'Write to MongoDB' >> WriteToMongoDB(uri=MONGO_URI,
                                                              db='rightmove',
                                                              coll=WALK_SCORES_COLLECTION,
-                                                             batch_size=10)
+                                                             batch_size=10
+                                               )
                                               )
 
 if __name__ == '__main__':

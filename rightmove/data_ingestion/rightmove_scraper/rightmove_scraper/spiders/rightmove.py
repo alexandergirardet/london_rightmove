@@ -13,7 +13,8 @@ from bs4 import BeautifulSoup
 
 from pymongo import MongoClient
 
-MONGO_URL = "mongodb://mongodb:27017/"
+# MONGO_URL = "mongodb://mongodb:27017/"
+MONGO_URI = os.environ.get("MONGO_URI")
 
 class RightmoveSpider(scrapy.Spider):
     name = 'rightmove'
@@ -40,6 +41,7 @@ class RightmoveSpider(scrapy.Spider):
 
         print("Number of IDs: ", len(self.rightmove_ids))
 
+        logger.info(f"Fetching new MongoDB data from {MONGO_URI}...")
         self.fetched_outcodes = self.get_outcodes()
 
     def start_requests(self):
@@ -109,7 +111,7 @@ class RightmoveSpider(scrapy.Spider):
 
     def get_property_ids(self) -> list:
 
-        client = MongoClient(MONGO_URL)
+        client = MongoClient(MONGO_URI)
         # client = MongoClient("mongodb://localhost:27017/")
         db = client["rightmove"]
         # Access collection

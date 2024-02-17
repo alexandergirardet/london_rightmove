@@ -11,8 +11,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN mkdir /etc/scrapyd
 RUN mkdir -p /scrapyd/logs
 
-ENV MONGO_URL="mongodb://localhost:27017/"
-
 # Make port 6800 available to the world outside this container
 # (scrapyd default port)
 EXPOSE 6800
