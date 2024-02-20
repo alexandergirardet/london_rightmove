@@ -42,6 +42,7 @@ class RightmoveSpider(scrapy.Spider):
         print("Number of IDs: ", len(self.rightmove_ids))
 
         logger.info(f"Fetching new MongoDB data from {MONGO_URI}...")
+
         self.fetched_outcodes = self.get_outcodes()
 
     def start_requests(self):

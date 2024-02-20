@@ -84,15 +84,19 @@ services:
 #    env_file:
 #      - .env
 
-#  mlflow_app:
-#    build:
-#      context: ./rightmove/mlflow/
-#    depends_on:
-#      - postgres
-#    ports:
-#      - "5001:5001"
-#    networks:
-#      - backend
+  mlflow-server:
+    build:
+      context: ./rightmove/mlflow/
+    ports:
+      - "5001:5001"
+    environment:
+      MLFLOW_BACKEND_STORE_URI: ${POSTGRES_URI:-}/mlflow
+      MLFLOW_ARTIFACTS_DESTINATION: ${GCS_ARTIFACT_BUCKET:-}
+      GOOGLE_APPLICATION_CREDENTIALS: /tmp/keys/credentials/airflow-service-account.json
+    volumes:
+        - /Users/alexander.girardet/Code/Personal/projects/rightmove_project/credentials:/tmp/keys/credentials
+    networks:
+      - backend
 
   postgres:
     image: postgres:13
@@ -111,6 +115,19 @@ services:
     restart: always
     networks:
       - backend
+
+  grafana:
+    image: grafana/grafana
+    user: "472"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./rightmove/monitoring/config/grafana_datasources.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+    networks:
+      - backend
+    env_file:
+      - .env
+    restart: always
 
   airflow-webserver:
     <<: *airflow-common

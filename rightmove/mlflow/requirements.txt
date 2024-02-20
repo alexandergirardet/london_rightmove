@@ -1,0 +1,4 @@
+mlflow
+psycopg2
+google-cloud-storage
+boto3
