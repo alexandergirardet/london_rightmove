@@ -8,4 +8,4 @@ providers:
     disableDeletion: false # Whether Grafana should delete dashboards not in the JSON files.
     updateIntervalSeconds: 10 # How often Grafana will scan for changed dashboard files.
     options:
-      path: /dashboards # Path to the directory where your dashboard JSON files are stored.
+      path: /var/lib/grafana/dashboards

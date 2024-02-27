@@ -117,6 +117,7 @@ services:
     volumes:
       - ./rightmove/monitoring/config/grafana_datasources.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
       - ./rightmove/monitoring/config/grafana_dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
+      - ./rightmove/monitoring/config/dashboards:/var/lib/grafana/dashboards:ro
     networks:
       - backend
     env_file:

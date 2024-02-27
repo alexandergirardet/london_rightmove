@@ -1,41 +1,4 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_GRAFANA-POSTGRESQL-DATASOURCE",
-      "label": "grafana-postgresql-datasource",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "grafana-postgresql-datasource",
-      "pluginName": "PostgreSQL"
-    }
-  ],
-  "__elements": {},
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "10.3.3"
-    },
-    {
-      "type": "datasource",
-      "id": "grafana-postgresql-datasource",
-      "name": "PostgreSQL",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
@@ -55,14 +18,13 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
       },
       "fieldConfig": {
         "defaults": {
@@ -73,7 +35,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "",
+            "axisLabel": "RMSE",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
@@ -125,13 +87,13 @@
         "x": 0,
         "y": 0
       },
-      "id": 1,
+      "id": 7,
       "options": {
         "legend": {
           "calcs": [],
-          "displayMode": "hidden",
-          "placement": "right",
-          "showLegend": false
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -142,31 +104,17 @@
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
           },
-          "editorMode": "builder",
+          "editorMode": "code",
           "format": "table",
-          "rawSql": "SELECT metric_value AS \"current\", created_at FROM model_metrics WHERE metric_name = 'current_rmse' LIMIT 50 ",
+          "rawQuery": true,
+          "rawSql": "SELECT metric_value AS \"current\", created_at FROM model_metrics WHERE metric_name = 'current_rmse' ",
           "refId": "A",
           "sql": {
             "columns": [
               {
-                "alias": "\"current\"",
-                "parameters": [
-                  {
-                    "name": "metric_value",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              },
-              {
-                "parameters": [
-                  {
-                    "name": "created_at",
-                    "type": "functionParameter"
-                  }
-                ],
+                "parameters": [],
                 "type": "function"
               }
             ],
@@ -178,64 +126,24 @@
                 "type": "groupBy"
               }
             ],
-            "limit": 50,
-            "whereJsonTree": {
-              "children1": [
-                {
-                  "id": "8a8b9bb8-4567-489a-bcde-f18de9943a73",
-                  "properties": {
-                    "field": "metric_name",
-                    "fieldSrc": "field",
-                    "operator": "equal",
-                    "value": [
-                      "current_rmse"
-                    ],
-                    "valueSrc": [
-                      "value"
-                    ],
-                    "valueType": [
-                      "text"
-                    ]
-                  },
-                  "type": "rule"
-                }
-              ],
-              "id": "98a9bb89-0123-4456-b89a-b18de97753bc",
-              "type": "group"
-            },
-            "whereString": "metric_name = 'current_rmse'"
-          },
-          "table": "model_metrics"
+            "limit": 50
+          }
         },
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
           },
-          "editorMode": "builder",
+          "editorMode": "code",
           "format": "table",
           "hide": false,
-          "rawSql": "SELECT metric_value AS \"reference\", created_at FROM model_metrics WHERE metric_name = 'reference_rmse' LIMIT 50 ",
+          "rawQuery": true,
+          "rawSql": "SELECT metric_value AS \"reference\", created_at FROM model_metrics WHERE metric_name = 'reference_rmse'\n",
           "refId": "B",
           "sql": {
             "columns": [
               {
-                "alias": "\"reference\"",
-                "parameters": [
-                  {
-                    "name": "metric_value",
-                    "type": "functionParameter"
-                  }
-                ],
-                "type": "function"
-              },
-              {
-                "parameters": [
-                  {
-                    "name": "created_at",
-                    "type": "functionParameter"
-                  }
-                ],
+                "parameters": [],
                 "type": "function"
               }
             ],
@@ -247,43 +155,17 @@
                 "type": "groupBy"
               }
             ],
-            "limit": 50,
-            "whereJsonTree": {
-              "children1": [
-                {
-                  "id": "99aababa-cdef-4012-b456-718de995f857",
-                  "properties": {
-                    "field": "metric_name",
-                    "fieldSrc": "field",
-                    "operator": "equal",
-                    "value": [
-                      "reference_rmse"
-                    ],
-                    "valueSrc": [
-                      "value"
-                    ],
-                    "valueType": [
-                      "text"
-                    ]
-                  },
-                  "type": "rule"
-                }
-              ],
-              "id": "98a9bb89-0123-4456-b89a-b18de97753bc",
-              "type": "group"
-            },
-            "whereString": "metric_name = 'reference_rmse'"
-          },
-          "table": "model_metrics"
+            "limit": 50
+          }
         }
       ],
-      "title": "Model performance",
+      "title": "Model Performance",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
       },
       "fieldConfig": {
         "defaults": {
@@ -336,10 +218,11 @@
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
           },
-          "editorMode": "builder",
+          "editorMode": "code",
           "format": "table",
+          "rawQuery": true,
           "rawSql": "SELECT metric_value, created_at FROM model_metrics WHERE metric_name = 'target_drift_score' ORDER BY created_at DESC LIMIT 1 ",
           "refId": "A",
           "sql": {
@@ -417,9 +300,8 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
       },
-      "description": "",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -429,7 +311,7 @@
             "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
-            "axisLabel": "% of Drifted Columns",
+            "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
@@ -481,13 +363,13 @@
         "x": 0,
         "y": 8
       },
-      "id": 2,
+      "id": 1,
       "options": {
         "legend": {
           "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
+          "displayMode": "hidden",
+          "placement": "right",
+          "showLegend": false
         },
         "tooltip": {
           "mode": "single",
@@ -498,15 +380,16 @@
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
           },
           "editorMode": "builder",
           "format": "table",
-          "rawSql": "SELECT metric_value, created_at FROM model_metrics WHERE metric_name = 'share_of_drifted_columns' LIMIT 50 ",
+          "rawSql": "SELECT metric_value AS \"current\", created_at FROM model_metrics WHERE metric_name = 'current_rmse' LIMIT 50 ",
           "refId": "A",
           "sql": {
             "columns": [
               {
+                "alias": "\"current\"",
                 "parameters": [
                   {
                     "name": "metric_value",
@@ -537,13 +420,13 @@
             "whereJsonTree": {
               "children1": [
                 {
-                  "id": "88a9b999-cdef-4012-b456-718de9990399",
+                  "id": "8a8b9bb8-4567-489a-bcde-f18de9943a73",
                   "properties": {
                     "field": "metric_name",
                     "fieldSrc": "field",
                     "operator": "equal",
                     "value": [
-                      "share_of_drifted_columns"
+                      "current_rmse"
                     ],
                     "valueSrc": [
                       "value"
@@ -558,18 +441,87 @@
               "id": "98a9bb89-0123-4456-b89a-b18de97753bc",
               "type": "group"
             },
-            "whereString": "metric_name = 'share_of_drifted_columns'"
+            "whereString": "metric_name = 'current_rmse'"
+          },
+          "table": "model_metrics"
+        },
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
+          },
+          "editorMode": "builder",
+          "format": "table",
+          "hide": false,
+          "rawSql": "SELECT metric_value AS \"reference\", created_at FROM model_metrics WHERE metric_name = 'reference_rmse' LIMIT 50 ",
+          "refId": "B",
+          "sql": {
+            "columns": [
+              {
+                "alias": "\"reference\"",
+                "parameters": [
+                  {
+                    "name": "metric_value",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "created_at",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "99aababa-cdef-4012-b456-718de995f857",
+                  "properties": {
+                    "field": "metric_name",
+                    "fieldSrc": "field",
+                    "operator": "equal",
+                    "value": [
+                      "reference_rmse"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "98a9bb89-0123-4456-b89a-b18de97753bc",
+              "type": "group"
+            },
+            "whereString": "metric_name = 'reference_rmse'"
           },
           "table": "model_metrics"
         }
       ],
-      "title": "Data Drift",
+      "title": "Model performance",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
       },
       "fieldConfig": {
         "defaults": {
@@ -649,7 +601,7 @@
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
           },
           "editorMode": "builder",
           "format": "table",
@@ -717,7 +669,7 @@
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
           },
           "editorMode": "builder",
           "format": "table",
@@ -790,7 +742,159 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+        "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "% of Drifted Columns",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unitScale": true
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 16
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
+          },
+          "editorMode": "builder",
+          "format": "table",
+          "rawSql": "SELECT metric_value, created_at FROM model_metrics WHERE metric_name = 'share_of_drifted_columns' LIMIT 50 ",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [
+                  {
+                    "name": "metric_value",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              },
+              {
+                "parameters": [
+                  {
+                    "name": "created_at",
+                    "type": "functionParameter"
+                  }
+                ],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50,
+            "whereJsonTree": {
+              "children1": [
+                {
+                  "id": "88a9b999-cdef-4012-b456-718de9990399",
+                  "properties": {
+                    "field": "metric_name",
+                    "fieldSrc": "field",
+                    "operator": "equal",
+                    "value": [
+                      "share_of_drifted_columns"
+                    ],
+                    "valueSrc": [
+                      "value"
+                    ],
+                    "valueType": [
+                      "text"
+                    ]
+                  },
+                  "type": "rule"
+                }
+              ],
+              "id": "98a9bb89-0123-4456-b89a-b18de97753bc",
+              "type": "group"
+            },
+            "whereString": "metric_name = 'share_of_drifted_columns'"
+          },
+          "table": "model_metrics"
+        }
+      ],
+      "title": "Data Drift",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
       },
       "fieldConfig": {
         "defaults": {
@@ -870,7 +974,7 @@
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
           },
           "editorMode": "builder",
           "format": "table",
@@ -938,7 +1042,7 @@
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "${DS_GRAFANA-POSTGRESQL-DATASOURCE}"
+            "uid": "d91e9d0f-93b7-48d4-a3c3-505ccccbd277"
           },
           "editorMode": "builder",
           "format": "table",
@@ -1023,6 +1127,6 @@
   "timezone": "",
   "title": "ML Monitoring",
   "uid": "cea77dc5-5f03-45b9-ac6d-4e5228684c32",
-  "version": 2,
+  "version": 1,
   "weekStart": ""
 }
