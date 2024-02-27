@@ -1,5 +1,0 @@
-apache-beam
-pandas
-numpy
-scikit-learn
-scipy

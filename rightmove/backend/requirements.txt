@@ -5,4 +5,8 @@ scipy
 pandas
 numpy
 pymongo
-mlflow
+mlflow==2.10.2
+pytest
+psycopg2
+google-cloud-storage
+scikit-learn==1.3.2
