@@ -12,8 +12,9 @@ import datetime
 
 # MONGO_URL = "mongodb://mongodb:27017/"
 MONGO_URI = os.environ.get("MONGO_URI")
-class RightmoveScraperPipeline:
 
+
+class RightmoveScraperPipeline:
     def __init__(self):
         self.batch = []
 
@@ -26,12 +27,11 @@ class RightmoveScraperPipeline:
         Sending items to MongoDB in batches to reduce I/O operations
         """
 
-        item['extraction_timestamp'] = datetime.datetime.utcnow().timestamp()
+        item["extraction_timestamp"] = datetime.datetime.utcnow().timestamp()
 
         self.batch.append(item)
 
         if len(self.batch) >= 50:  # Batch size of file
-
             self.collection.insert_many(self.batch)
             self.batch = []
 

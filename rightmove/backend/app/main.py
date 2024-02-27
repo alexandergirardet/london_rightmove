@@ -1,159 +1,97 @@
 import os
+from http.client import HTTPException
 from typing import Union
 
 from fastapi import FastAPI
 
-from datetime import datetime, timedelta
+from pydantic import BaseModel
+from app.data_processing.walk_score_processing import WalkScoreProcessor
+from sklearn.neighbors import BallTree
 
-from pydantic import BaseModel, ValidationError, validator
-
-import json
+from math import radians
+from typing import List
+import mlflow.pyfunc
 
 import pandas as pd
 
-from pymongo import MongoClient
+import math
+import numpy as np
 
-from models.PricingCategory import PricingCategory
-from models.Property import Property
+# from dotenv import load_dotenv
+# load_dotenv("/Users/alexander.girardet/Code/Personal/projects/rightmove_project/.env")
 
-from data_processing.DataPreprocessor import DataPreprocessor
+
+class Property(BaseModel):
+    bedrooms: float
+    bathrooms: float
+    longitude: float
+    latitude: float
+    walk_score: float
+
+
+class Coordinates(BaseModel):
+    longitude: float
+    latitude: float
+
+
+MLFLOW_TRACKING_URI = os.environ.get("MLFLOW_TRACKING_URI")
 
 app = FastAPI()
-MONGO_DB_URL = "mongodb://localhost:27017/"
 
-# MONGO_DB_URL = os.environ.get('MONGO_DB_URL')
+model_name = "Random Forest Walk Score"
+model_stage = "Staging"
+model_uri = f"models:/{model_name}/{model_stage}"
+model = mlflow.pyfunc.load_model(model_uri)
 
-@app.on_event("startup")
-def startup_event():
-    global df
-    df = get_properties()
-    walk_df = get_walk_scores()
+MONGO_URI = os.environ.get("MONGO_URI")
 
-    preprocessor = DataPreprocessor()
-    df = preprocessor.preprocess_properties(df)
-    walk_df = preprocessor.preprocess_walk_score(walk_df)
+GCS_PARQUET_URL = (
+    "https://storage.googleapis.com/rightmove-resources-public/UK_pois.parquet"
+)
+WALK_SCORES_COLLECTION = "walk_scores"
 
-    df = preprocessor.merge_dataframes(df, walk_df)
+BATCH_SIZE = 50
 
-    # df.to_csv("data.csv", index=False)
 
-@app.post("/get_text")
-def get_text(category: PricingCategory):
-    category = category.category
-    subset = df[df['price_category'] == category]
-    combined_text = ' '.join(subset['text'].tolist())
-    return {"category_text": combined_text}
+@app.post("/predict")
+async def predict_rent(input_property: Property):
+    try:
+        features_df = pd.DataFrame(input_property.dict(), index=[0])
+        prediction = model.predict(features_df)
+        return {"prediction": prediction[0]}
 
-from pydantic import BaseModel, ValidationError, validator
+    except Exception as e:
+        raise HTTPException()
 
-class AddedDates(BaseModel):
-    category: str
 
-    # Optional: Validator to provide a more specific error message
-    @validator('category')
-    def check_category(cls, v):
-        if v not in ['Cheap', 'Average', 'Expensive']:
-            raise ValidationError('Pricing must be "Cheap", "Average", or "Expensive"')
-        return v
-@app.get("/get_recents/{days}")
-def get_recents(days: int):
-    new_df = df[df['listingUpdateReason'] == 'new']
+@app.post("/batch-predict")
+async def batch_predict_rent(input_properties: List[Property]):
+    try:
+        properties_dicts = [property.dict() for property in input_properties]
+        features_df = pd.DataFrame(properties_dicts)
+        predictions = model.predict(features_df)
 
-    today = pd.Timestamp(datetime.now(), tz='UTC')
+        return {"predictions": predictions.tolist()}
 
-    # Calculate the start date of the last week (7 days ago)
-    date_start = today - timedelta(days=days)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
-    new_df['firstVisibleDate'] = pd.to_datetime(new_df['firstVisibleDate'], utc=True)
 
-    # Filter the DataFrame for rows where the datetime is within the last week
-    in_between_rows = new_df[(new_df['firstVisibleDate'] > date_start) & (df['firstVisibleDate'] <= today)]
+@app.post("/walk_score")
+async def generate_walk_score(input_coordinates: Coordinates):
+    try:
+        walk_score_processor = WalkScoreProcessor()
+        input_coordinates = input_coordinates.dict()
+        longitude = input_coordinates["longitude"]
+        latitude = input_coordinates["latitude"]
+        scores_dict = walk_score_processor.calculuate_walk_score(longitude, latitude)
+        walk_score = sum(scores_dict.values()) * 6.67
+        return {"walk_score": walk_score}
 
-    # Get the total number of rows
-    total_rows = len(in_between_rows)
-    return {"properties_added": total_rows}
-@app.get("/properties")
-def properties():
-    property_df = df[['id', 'price', 'bedrooms', 'bathrooms', 'longitude', 'latitude', 'listingUpdateReason', 'firstVisibleDate']]
-    return property_df.to_dict(orient='records')
+    except Exception as e:
+        raise HTTPException()
 
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
-
-def connect_to_client():
-    client = MongoClient(MONGO_DB_URL)
-    return client
-
-def connect_to_db(client, db):
-    db = client[db]
-    return db
-
-def connect_to_collection(db, collection):
-    collection = db[collection]
-    return collection
-
-def get_properties(number_of_records=25000):
-    client = connect_to_client()
-
-    db = connect_to_db(client, "rightmove")
-
-    collection = connect_to_collection(db, "properties")
-
-    fields = {"id": 1, "price.amount": 1, "price.frequency": 1, "firstVisibleDate": 1, "bedrooms": 1, "bathrooms": 1, "listingUpdate": 1, 'location': 1, 'summary': 1, "feature_list": 1}
-    query = {}
-
-    # Fetch data from the collection
-    data = collection.find(query, fields, limit=number_of_records)
-
-    # Convert to Pandas DataFrame
-    df = pd.DataFrame(list(data))
-
-    client.close()
-
-    return df
-
-def get_walk_scores(number_of_records=1000):
-    client = connect_to_client()
-
-    db = connect_to_db(client, "rightmove")
-
-    collection = connect_to_collection(db, "walk_scores")
-
-    fields = {"id": 1, "scores.walk_score": 1}
-    query = {}
-
-    # Fetch data from the collection
-    data = collection.find(query, fields)
-
-    # Convert to Pandas DataFrame
-    walk_df = pd.DataFrame(list(data))
-
-    client.close()
-
-    return walk_df
-
-
-def get_property(collection, propery_id):
-    fields = {"id": propery_id}
-    query = {}
-    data = collection.find(query, fields)
-
-    return data
-
-if __name__ == "__main__":
-    df = get_properties()
-    walk_df = get_walk_scores()
-
-    preprocessor = DataPreprocessor()
-    df = preprocessor.preprocess_properties(df)
-    walk_df = preprocessor.preprocess_walk_score(walk_df)
-
-    df = preprocessor.merge_dataframes(df, walk_df)
-
-    df.dropna(inplace=True)
-
-    df.to_parquet("data.parquet", index=False)
-
-    print(df)

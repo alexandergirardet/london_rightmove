@@ -80,22 +80,24 @@ class RightmoveScraperSpiderMiddleware:
         # Setup database connection
         logger.info(f"Logging stats to Postgres: {stats}")
 
-        start_time = stats.get('start_time')
-        finish_time = stats.get('finish_time')
-        elapsed_time_seconds = stats.get('elapsed_time_seconds')
-        item_scraped_count = stats.get('item_scraped_count', 0)
-        finish_reason = stats.get('finish_reason')
-        log_count_debug = stats.get('log_count/DEBUG', 0)
-        log_count_info = stats.get('log_count/INFO', 0)
-        log_count_error = stats.get('log_count/ERROR', 0)
-        mem_usage_startup = stats.get('memusage/startup')
-        mem_usage_max = stats.get('memusage/max')
-        scheduler_enqueued_memory = stats.get('scheduler/enqueued/memory')
-        downloader_request_count = stats.get('downloader/request_count')
-        downloader_reponse_count = stats.get('downloader/response_count')
-        response_received_count = stats.get('response_received_count')
-        downloader_request_method_count_get = stats.get('downloader/request_method_count/GET')
-        downloader_request_bytes = stats.get('downloader/request_bytes')
+        start_time = stats.get("start_time")
+        finish_time = stats.get("finish_time")
+        elapsed_time_seconds = stats.get("elapsed_time_seconds")
+        item_scraped_count = stats.get("item_scraped_count", 0)
+        finish_reason = stats.get("finish_reason")
+        log_count_debug = stats.get("log_count/DEBUG", 0)
+        log_count_info = stats.get("log_count/INFO", 0)
+        log_count_error = stats.get("log_count/ERROR", 0)
+        mem_usage_startup = stats.get("memusage/startup")
+        mem_usage_max = stats.get("memusage/max")
+        scheduler_enqueued_memory = stats.get("scheduler/enqueued/memory")
+        downloader_request_count = stats.get("downloader/request_count")
+        downloader_reponse_count = stats.get("downloader/response_count")
+        response_received_count = stats.get("response_received_count")
+        downloader_request_method_count_get = stats.get(
+            "downloader/request_method_count/GET"
+        )
+        downloader_request_bytes = stats.get("downloader/request_bytes")
 
         logger.info("Saving stats to PostgreSQL")
         logger.info(f"start_time: {start_time}")
@@ -112,7 +114,9 @@ class RightmoveScraperSpiderMiddleware:
         logger.info(f"downloader_request_count: {downloader_request_count}")
         logger.info(f"downloader_reponse_count: {downloader_reponse_count}")
         logger.info(f"response_received_count: {response_received_count}")
-        logger.info(f"downloader_request_method_count_get: {downloader_request_method_count_get}")
+        logger.info(
+            f"downloader_request_method_count_get: {downloader_request_method_count_get}"
+        )
         logger.info(f"downloader_request_bytes: {downloader_request_bytes}")
 
         insert_sql = """
@@ -126,12 +130,22 @@ class RightmoveScraperSpiderMiddleware:
 
         # Data tuple to insert
         data = (
-            stats.get('start_time'), stats.get('finish_time'), stats.get('elapsed_time_seconds'),
-            stats.get('item_scraped_count', 0), stats.get('finish_reason'), stats.get('log_count/DEBUG', 0),
-            stats.get('log_count/INFO', 0), stats.get('log_count/ERROR', 0), stats.get('memusage/startup'), stats.get('memusage/max'),
-            stats.get('scheduler/enqueued/memory'), stats.get('downloader/request_count'),
-            stats.get('downloader/response_count'), stats.get('response_received_count'),
-            stats.get('downloader/request_method_count/GET'), stats.get('downloader/request_bytes')
+            stats.get("start_time"),
+            stats.get("finish_time"),
+            stats.get("elapsed_time_seconds"),
+            stats.get("item_scraped_count", 0),
+            stats.get("finish_reason"),
+            stats.get("log_count/DEBUG", 0),
+            stats.get("log_count/INFO", 0),
+            stats.get("log_count/ERROR", 0),
+            stats.get("memusage/startup"),
+            stats.get("memusage/max"),
+            stats.get("scheduler/enqueued/memory"),
+            stats.get("downloader/request_count"),
+            stats.get("downloader/response_count"),
+            stats.get("response_received_count"),
+            stats.get("downloader/request_method_count/GET"),
+            stats.get("downloader/request_bytes"),
         )
         cur = None
         conn = None
