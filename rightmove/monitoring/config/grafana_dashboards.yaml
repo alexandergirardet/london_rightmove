@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: 'My Dashboards' # A friendly name for this provisioning configuration
+    orgId: 1 # The ID of the Org in Grafana where you want to provision the dashboards
+    folder: '' # The name of the folder where you want these dashboards to appear. Leave empty for the General folder.
+    type: file # The type of the provider. In this case, 'file' for file-based provisioning.
+    disableDeletion: false # Whether Grafana should delete dashboards not in the JSON files.
+    updateIntervalSeconds: 10 # How often Grafana will scan for changed dashboard files.
+    options:
+      path: /dashboards # Path to the directory where your dashboard JSON files are stored.
