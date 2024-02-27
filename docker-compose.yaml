@@ -26,6 +26,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/dags:/opt/airflow/dags
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
+    - /var/run/docker.sock:/var/run/docker.sock
     - /Users/alexander.girardet/Code/Personal/projects/rightmove_project/credentials:/opt/airflow/credentials
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
@@ -76,14 +77,6 @@ services:
 #      - frontend
 #      - backend
 
-#  beam_app:
-#    build:
-#      context: ./rightmove/beam/
-#    networks:
-#      - backend
-#    env_file:
-#      - .env
-
   mlflow-server:
     build:
       context: ./rightmove/mlflow/
@@ -123,6 +116,7 @@ services:
       - "3000:3000"
     volumes:
       - ./rightmove/monitoring/config/grafana_datasources.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+      - ./rightmove/monitoring/config/grafana_dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
     networks:
       - backend
     env_file:

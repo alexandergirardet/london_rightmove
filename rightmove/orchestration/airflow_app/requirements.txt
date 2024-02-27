@@ -9,3 +9,6 @@ psycopg2-binary
 pandas
 numpy
 mlflow
+apache-beam
+evidently
+scipy

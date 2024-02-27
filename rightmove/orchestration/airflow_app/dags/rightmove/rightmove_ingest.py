@@ -7,6 +7,9 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.dummy_operator import DummyOperator
 
+from rightmove.data_processing.rightmove_processing import run
+
+
 SCRAPYD_ENDPOINT = "http://scrapy_app:6800"
 SPIDER = "rightmove"
 PROJECT = "scraper"
@@ -27,6 +30,9 @@ def start_spider():
             logging.info("Spider started successfully")
             job_id = response.json()['jobid']
             return job_id
+        else:
+            logging.info(response.text)
+            raise ValueError("Spider has not been started")
     else:
         print(response.text)
         raise ValueError("Request failed")
@@ -141,9 +147,16 @@ cancel_spider_task = PythonOperator(
     dag=dag
 )
 
+run_beam_pipeline = PythonOperator(
+    task_id='run_beam_pipeline',
+    python_callable=run,
+    dag=dag
+)
+
+
 end_task = DummyOperator(
     task_id='end',
     dag=dag
 )
 
-start_task >> start_spider_task >> periodic_requests >> cancel_spider_task >> end_task
+start_task >> start_spider_task >> periodic_requests >> cancel_spider_task >> run_beam_pipeline >> end_task

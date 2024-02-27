@@ -17,7 +17,5 @@ COPY app /code/app
 
 WORKDIR /code/app
 
-#CMD ["python", "app/rightmove_processing.py"]
-
 # Start a shell to keep the container running
-CMD ["tail", "-f", "/dev/null"]
+#CMD ["tail", "-f", "/dev/null"]
