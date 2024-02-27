@@ -7,7 +7,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from sklearn.metrics import mean_squared_error
-
+from mlflow.data.pandas_dataset import PandasDataset
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.dummy_operator import DummyOperator
@@ -171,9 +171,11 @@ def fetch_preprocess_and_upload_data():
     folder_name = generate_foldername()
     parent_folder = "data"
 
+    df['price_bin'] = pd.qcut(df['price'], q=10, duplicates='drop')
+
     # Create train test,  validation split
-    train_val, test_df = train_test_split(df, test_size=0.1, random_state=42)
-    train_df, val_df = train_test_split(train_val, test_size=0.2, random_state=42)
+    train_val, test_df = train_test_split(df, test_size=0.1, stratify=df['price_bin'], random_state=42)
+    train_df, val_df = train_test_split(train_val, test_size=0.2, stratify=train_val['price_bin'], random_state=42)
 
     # Upload to GCS train, test, and validation data
     load_df_to_gcs(train_df, f"{parent_folder}/{folder_name}/train.csv")
@@ -185,16 +187,24 @@ def fetch_preprocess_and_upload_data():
     return folder_name
 
 def train_model(**kwargs):
-    ti = kwargs['ti']
-    folder_name = ti.xcom_pull(task_ids='load_data')
+    if 'ti' in kwargs:
+        ti = kwargs['ti']
+        folder_name = ti.xcom_pull(task_ids='load_data')
+    else:
+        folder_name = kwargs['folder_name']
 
     logging.info(f"Training model with data from {folder_name}")
 
     train_dataset_source_url = f"gs://rightmove-artifacts-ml/data/{folder_name}/train.csv"
     val_dataset_source_url = f"gs://rightmove-artifacts-ml/data/{folder_name}/val.csv"
+    test_dataset_source_url = f"gs://rightmove-artifacts-ml/data/{folder_name}/test.csv"
 
     train_df = load_data_from_gcs(train_dataset_source_url)
     val_df = load_data_from_gcs(val_dataset_source_url)
+    test_df = load_data_from_gcs(test_dataset_source_url)
+
+    train_df = train_df.dropna()
+    val_df = val_df.dropna()
 
     features = ['bedrooms', 'bathrooms', 'longitude', 'latitude', 'walk_score']
     target = 'price'
@@ -205,17 +215,31 @@ def train_model(**kwargs):
     X_val = val_df[features]
     y_val = val_df[target]
 
+    train_dataset: PandasDataset = mlflow.data.from_pandas(train_df, source=train_dataset_source_url)
+    val_dataset: PandasDataset = mlflow.data.from_pandas(val_df, source=val_dataset_source_url)
+    test_dataset: PandasDataset = mlflow.data.from_pandas(test_df, source=val_dataset_source_url)
+
     with mlflow.start_run() as run:
         mlflow.set_tag("developer", "Alex")
 
         mlflow.log_param("Model type", "Random Forest")
         model = RandomForestRegressor()
 
+        # Log the datasets
+        mlflow.log_input(train_dataset, context="training")
+        mlflow.log_input(val_dataset, context="validation")
+        mlflow.log_input(test_dataset, context="test")
+
         logging.info("Fitting model")
         model.fit(X_train, y_train)
 
         y_pred = model.predict(X_val)
+
+        # calculate rmse
         rmse = mean_squared_error(y_val, y_pred, squared=False)
+
+        # calculate r2
+        r2 = model.score(X_val, y_val)
 
         mlflow.log_metric("rmse", rmse)
         mlflow.sklearn.log_model(model, "random-forest")
@@ -225,16 +249,16 @@ def train_model(**kwargs):
     return run.info.run_id
 
 def register_model(**kwargs):
-    # Retrieve the run ID from XCom
-    ti = kwargs['ti']
-    run_id = ti.xcom_pull(task_ids='train_model')
-    # run_id = kwargs['run_id']
 
-    # Specify the model name and artifact path
-    model_name = "Random Forest Walk Score"  # Change this to your desired model name in the registry
-    artifact_path = "random-forest"  # This should match the path used in mlflow.sklearn.log_model
+    if 'ti' in kwargs:
+        ti = kwargs['ti']
+        run_id = ti.xcom_pull(task_ids='train_model')
+    else:
+        run_id = kwargs['run_id']
 
-    # Construct the model URI from the run ID and artifact path
+    model_name = "Random Forest Walk Score"
+    artifact_path = "random-forest"
+
     model_uri = f"runs:/{run_id}/{artifact_path}"
 
     # Register the model with the MLflow Model Registry
@@ -294,7 +318,6 @@ with dag:
 if __name__ == "__main__":
     folder_name = fetch_preprocess_and_upload_data()
     print(folder_name)
-    run_id = train_model(folder_name)
+    run_id = train_model(folder_name=folder_name)
     print(run_id)
     register_model(run_id=run_id)
-    # print(df)
