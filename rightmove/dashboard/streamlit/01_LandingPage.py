@@ -10,75 +10,15 @@ import json
 import seaborn as sns
 import plotly.express as px
 import os
-from data_processing.processing import DataPreprocessor
-from pymongo import MongoClient
 
 import logging
 
 logging.basicConfig(level=logging.INFO)
 
 from dotenv import load_dotenv
-load_dotenv("/Users/alexander.girardet/Code/Personal/projects/rightmove_project/.env")
+load_dotenv("/.env")
 
 MONGO_URI = os.environ.get("MONGO_URI")
-
-def load_data_from_mongo(collection_name="properties", fields=None):
-    logging.info("Loading data from mongo")
-
-    client = MongoClient(MONGO_URI)  # Hosted with Docker
-
-    db = client["rightmove"]
-
-    collection = db[collection_name]
-
-    query = {}
-
-    data = collection.find(query, fields)
-
-    df = pd.DataFrame(list(data))
-
-    if len(df) == 0:
-        raise ValueError(f"No data found in collection {collection_name}")
-    else:
-        logging.info(f"Data loaded from collection {collection_name}")
-
-    return df
-
-def preprocess_data(property_df, walkscore_df):
-    preprocessor = DataPreprocessor(with_text=True, with_binary=False)
-
-    property_df = preprocessor.preprocess_properties(property_df)
-    walk_df = preprocessor.preprocess_walk_score(walkscore_df)
-
-    df = property_df.merge(walk_df, on="id", how="left")
-
-    logging.info("Data preprocessed")
-
-    return df
-
-def fetch_preprocess_data():
-    property_df = load_data_from_mongo(
-        collection_name="properties",
-        fields={
-            "id": 1,
-            "price.amount": 1,
-            "price.frequency": 1,
-            "firstVisibleDate": 1,
-            "bedrooms": 1,
-            "bathrooms": 1,
-            "listingUpdate": 1,
-            "location": 1,
-            "summary": 1,
-            "feature_list": 1,
-        },
-    )
-    walkscore_df = load_data_from_mongo(
-        collection_name="walk_scores", fields={"id": 1, "scores": 1}
-    )
-
-    df = preprocess_data(property_df, walkscore_df)
-
-    return df
 
 @st.cache_data
 def load_data():

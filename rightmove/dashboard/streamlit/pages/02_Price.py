@@ -118,6 +118,9 @@ df["color_value"] = df["color_value"].astype(
 
 
 # Function to create the heatmap
+st.info(
+    "The following map shows the distribution of rental prices in the selected area. The elevation of the hexagons represents the mean rental price of properties within each hexagon."
+)
 @st.cache_resource
 def create_hexagon_map(
     dataframe,
