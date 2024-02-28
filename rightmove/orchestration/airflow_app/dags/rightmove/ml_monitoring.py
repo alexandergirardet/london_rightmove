@@ -1,21 +1,12 @@
-from datetime import datetime, timedelta
-import pandas as pd
-
-from airflow import DAG
+mfrom airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.dummy_operator import DummyOperator
 
 from rightmove.data_processing.data_processor import DataPreprocessor
 from rightmove.data_processing.metric_extraction import MetricExtraction
 
-# from data_processing.data_processor import DataPreprocessor
-# from data_processing.metric_extraction import MetricExtraction
 import re
 
-import requests
-
-# from data_processing.data_processor import DataPreprocessor
-# from data_processing.metric_extraction import MetricExtraction
 
 from pymongo import MongoClient
 import pandas as pd
@@ -158,6 +149,9 @@ def monitor_datasets(**kwargs):
         synthetic_data = kwargs.get("synthetic_data")
 
     current_data, reference_data = load_predictions_from_gcs(folder_name)
+
+    current_data = current_data[['bedrooms', 'bathrooms', 'longitude', 'latitude', 'walk_score', 'prediction', 'target']]
+    reference_data = reference_data[['bedrooms', 'bathrooms', 'longitude', 'latitude', 'walk_score', 'prediction', 'target']]
 
     metric_extractor = MetricExtraction()
 
