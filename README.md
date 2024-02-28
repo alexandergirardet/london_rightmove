@@ -26,7 +26,8 @@ The project showcases my ML and MLOps expertise through the development of a Ran
 
 ### **Data Extraction and Processing**
 
-![Real Estate  - Page 1.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/60e0a12b-ea5b-432c-b216-5b4edf614f56/dcdf2229-e54d-403d-8597-6a4d64a4bc52/Real_Estate__-_Page_1.png)
+![Example Image](/static/images/Processing_pipeline_rightmove.png)
+
 
 Choosing Rightmove, a leading UK property listing site, as the data source, I developed a Scrapy spider deployed on a Scrapyd server. This setup enhances control over scraping activities and integrates seamlessly with Airflow for orchestration, ensuring ethical data usage and compliance with best practices.
 
