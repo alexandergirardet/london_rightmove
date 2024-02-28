@@ -78,7 +78,7 @@ Understanding and mitigating concept drift and data drift are critical for maint
 - **Concept Drift**: This occurs when the statistical properties of the target variable, which the model is trying to predict, change over time. This can degrade the model's performance because the patterns the model learned during training may no longer apply. To detect concept drift, the monitoring pipeline employed statistical tests and comparisons between predictions and actual outcomes over time. When significant drift was detected, a model retraining workflow was triggered, incorporating new data to adapt the model to the current reality.
 - **Data Drift**: Data drift refers to changes in the input data's distribution. It's crucial to monitor because even if the target variable's distribution remains the same, changes in input data can lead to poor model performance. The project utilized Evidently to monitor key features' distributions, comparing incoming data against a historical baseline (the golden dataset). Alerts were set up to notify when data drift exceeded predefined thresholds, prompting an evaluation to determine if model retraining or adjustment in data preprocessing steps was necessary.
 
-#### Monitoring
+#### ML Model Monitoring
 ![Model Monitoring](/static/images/model_monitoring.png)
 
 MLOps monitoring of Data and Concept Drift
