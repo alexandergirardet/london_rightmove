@@ -64,7 +64,7 @@ The Rightmove Rental Prediction System employs a focused approach to monitor its
 
 The setup integrates seamlessly with our DevOps practices, with Grafana alerts configured to trigger automated actions or notifications for immediate attention, ensuring the system's robustness and reliability.
 
-![System Monitoring of Scrapy Sessions](https://prod-files-secure.s3.us-west-2.amazonaws.com/60e0a12b-ea5b-432c-b216-5b4edf614f56/f59e0dae-ef84-426b-90a6-8bcce8befd60/Screenshot_2024-02-28_at_08.06.43.png)
+![Example Image](/static/images/scrapy_monitoring.png)
 
 System Monitoring of Scrapy Sessions
 
@@ -77,7 +77,7 @@ Understanding and mitigating concept drift and data drift are critical for maint
 - **Concept Drift**: This occurs when the statistical properties of the target variable, which the model is trying to predict, change over time. This can degrade the model's performance because the patterns the model learned during training may no longer apply. To detect concept drift, the monitoring pipeline employed statistical tests and comparisons between predictions and actual outcomes over time. When significant drift was detected, a model retraining workflow was triggered, incorporating new data to adapt the model to the current reality.
 - **Data Drift**: Data drift refers to changes in the input data's distribution. It's crucial to monitor because even if the target variable's distribution remains the same, changes in input data can lead to poor model performance. The project utilized Evidently to monitor key features' distributions, comparing incoming data against a historical baseline (the golden dataset). Alerts were set up to notify when data drift exceeded predefined thresholds, prompting an evaluation to determine if model retraining or adjustment in data preprocessing steps was necessary.
 
-![MLOps monitoring of Data and Concept Drift](https://prod-files-secure.s3.us-west-2.amazonaws.com/60e0a12b-ea5b-432c-b216-5b4edf614f56/89e3779f-72e0-41f4-a302-c750888ca99a/Screenshot_2024-02-28_at_08.06.07.png)
+![Example Image](/static/images/model_monitoring.png)
 
 MLOps monitoring of Data and Concept Drift
 
