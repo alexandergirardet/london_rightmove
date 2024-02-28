@@ -26,7 +26,7 @@ The project showcases my ML and MLOps expertise through the development of a Ran
 
 ### **Data Extraction and Processing**
 
-![Example Image](/static/images/Processing_pipeline_rightmove.png)
+![Data Extraction Pipeline](/static/images/Processing_pipeline_rightmove.png)
 
 
 Choosing Rightmove, a leading UK property listing site, as the data source, I developed a Scrapy spider deployed on a Scrapyd server. This setup enhances control over scraping activities and integrates seamlessly with Airflow for orchestration, ensuring ethical data usage and compliance with best practices.
@@ -35,7 +35,7 @@ Data storage is managed through PostgreSQL and MongoDB, supporting structured an
 
 ### **ML Training with MLFlow**
 
-![Example Image](/static/images/model_training_pipeline.png)
+![ML Training pipeline](/static/images/model_training_pipeline.png)
 
 For the ML training component, MLFlow played a critical role as a central hub for experiment tracking, model versioning, and serving. This tool allowed for a systematic approach to managing the lifecycle of machine learning models. Here's how it was integrated into the workflow:
 
@@ -64,20 +64,22 @@ The Rightmove Rental Prediction System employs a focused approach to monitor its
 
 The setup integrates seamlessly with our DevOps practices, with Grafana alerts configured to trigger automated actions or notifications for immediate attention, ensuring the system's robustness and reliability.
 
-![Example Image](/static/images/scrapy_monitoring.png)
+#### System Monitoring
+![Extraction Monitoring](/static/images/scrapy_monitoring.png)
 
 System Monitoring of Scrapy Sessions
 
 ## **MLOps**
 
-![Example Image](/static/images/mlops_pipeline.png)
+![MLOps Diagram](/static/images/mlops_pipeline.png)
 
 Understanding and mitigating concept drift and data drift are critical for maintaining the performance of ML models in production. Here’s how these challenges were approached:
 
 - **Concept Drift**: This occurs when the statistical properties of the target variable, which the model is trying to predict, change over time. This can degrade the model's performance because the patterns the model learned during training may no longer apply. To detect concept drift, the monitoring pipeline employed statistical tests and comparisons between predictions and actual outcomes over time. When significant drift was detected, a model retraining workflow was triggered, incorporating new data to adapt the model to the current reality.
 - **Data Drift**: Data drift refers to changes in the input data's distribution. It's crucial to monitor because even if the target variable's distribution remains the same, changes in input data can lead to poor model performance. The project utilized Evidently to monitor key features' distributions, comparing incoming data against a historical baseline (the golden dataset). Alerts were set up to notify when data drift exceeded predefined thresholds, prompting an evaluation to determine if model retraining or adjustment in data preprocessing steps was necessary.
 
-![Example Image](/static/images/model_monitoring.png)
+#### Monitoring
+![Model Monitoring](/static/images/model_monitoring.png)
 
 MLOps monitoring of Data and Concept Drift
 
