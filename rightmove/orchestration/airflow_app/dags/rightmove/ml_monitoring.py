@@ -10,6 +10,12 @@ from rightmove.data_processing.metric_extraction import MetricExtraction
 
 # from data_processing.data_processor import DataPreprocessor
 # from data_processing.metric_extraction import MetricExtraction
+import re
+
+import requests
+
+# from data_processing.data_processor import DataPreprocessor
+# from data_processing.metric_extraction import MetricExtraction
 
 from pymongo import MongoClient
 import pandas as pd
@@ -26,9 +32,10 @@ import mlflow
 client = storage.Client()
 bucket = client.get_bucket("rightmove-artifacts-ml")
 
-mlflow.set_tracking_uri(
-    "postgresql+psycopg2://postgres:postgres@realestate-database.czkkjkojmucd.eu-west-2.rds.amazonaws.com:5432/mlflow"
-)
+MONITORING_URI_PG = os.environ.get("MONITORING_URI_PG")
+
+mlflow.set_tracking_uri(MONITORING_URI_PG)
+
 experiment_name = "rightmove-prediction"
 mlflow.set_experiment(experiment_name)
 
@@ -48,11 +55,26 @@ default_args = {
     "retry_delay": timedelta(minutes=5),
 }
 
+def modify_uri_to_test(uri: str) -> str:
+    parts = uri.split('/')
+    filename = parts[-1]
+    new_filename = re.sub(r'(train|val|test)\.csv', 'test.csv', filename)
+    parts[-1] = new_filename
+    new_uri = '/'.join(parts)
+    return new_uri
+
+
 
 def fetch_reference_df():
+    response = requests.get("http://fastapi_app:8000/latest-dataset")
+    latest_uri = response.json().get("uri")
+
+    test_uri = modify_uri_to_test(latest_uri)
+
+
     reference_data = pd.read_csv(
-        "gs://rightmove-artifacts-ml/data/2024-02-17-14-18-14/test.csv", index_col=0
-    )  # Fetch latest run from GCS
+        test_uri, index_col=0
+    )
     return reference_data
 
 
@@ -76,7 +98,7 @@ def load_data_from_mongo(collection_name, fields, timestamp_field):
 
     collection = db[collection_name]
 
-    two_hours_ago = datetime.now() - timedelta(hours=24)
+    two_hours_ago = datetime.now() - timedelta(hours=12)
     two_hours_ago_unix = two_hours_ago.timestamp()
 
     query = {timestamp_field: {"$gt": two_hours_ago_unix}}
@@ -297,8 +319,15 @@ end_task = DummyOperator(task_id="end", dag=dag)
 start_task >> load_predictions_to_gcs_task >> monitor_datasets_task >> end_task
 
 if __name__ == "__main__":
-    folder_name = load_predictions_to_gcs()
-    monitor_datasets(folder_name=folder_name)
+    # folder_name = load_predictions_to_gcs()
+    # monitor_datasets(folder_name=folder_name)
+
+    response = requests.get("http://localhost:8000/latest-dataset")
+    latest_uri = response.json().get("uri")
+
+    test_uri = modify_uri_to_test(latest_uri)
+
+    print(test_uri)
     #
     # import logging
     # import pandas as pd

@@ -2,3 +2,4 @@ pandas
 streamlit
 numpy
 requests
+google-cloud-storage

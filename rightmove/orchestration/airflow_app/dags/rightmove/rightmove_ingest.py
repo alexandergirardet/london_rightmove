@@ -45,8 +45,6 @@ def cancel_spider(**kwargs):
     payload = f"project={PROJECT}&job={job_id}"
     headers = {"Content-Type": "application/x-www-form-urlencoded"}
 
-    # url = "http://scrapy_app:6800/cancel.json"
-
     url = SCRAPYD_ENDPOINT + "/cancel.json"
 
     response = requests.request("POST", url, headers=headers, data=payload)

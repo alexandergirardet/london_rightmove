@@ -37,14 +37,6 @@ x-airflow-common:
     - backend
 
 services:
-#  mongodb:
-#    image: mongo:latest
-#    volumes:
-#      - mongodb_data:/data/db
-#    ports:
-#      - "27017:27017"
-#    networks:
-#      - backend
 
   scrapy_app:
     build:
@@ -63,19 +55,30 @@ services:
 #      - mongodb
 #    ports:
 #      - "8501:8501"
-#    networks:
-#      - frontend
-#
-#  fastapi_app:
-#    build:
-#      context: ./rightmove/backend/
-#    depends_on:
-#      - mongodb
-#    ports:
-#      - "8000:8000"
+#    environment:
+#      GOOGLE_APPLICATION_CREDENTIALS: /tmp/keys/credentials/airflow-service-account.json
+#    env_file:
+#      - .env
+#    volumes:
+#      - /Users/alexander.girardet/Code/Personal/projects/rightmove_project/credentials:/tmp/keys/credentials
 #    networks:
 #      - frontend
 #      - backend
+#
+  fastapi_app:
+    build:
+      context: ./rightmove/backend/
+    ports:
+      - "8000:8000"
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /tmp/keys/credentials/airflow-service-account.json
+    env_file:
+      - .env
+    volumes:
+      - /Users/alexander.girardet/Code/Personal/projects/rightmove_project/credentials:/tmp/keys/credentials
+    networks:
+      - frontend
+      - backend
 
   mlflow-server:
     build:
