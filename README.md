@@ -35,7 +35,7 @@ Data storage is managed through PostgreSQL and MongoDB, supporting structured an
 
 ### **ML Training with MLFlow**
 
-![Real Estate  - Page 1 (1).png](https://prod-files-secure.s3.us-west-2.amazonaws.com/60e0a12b-ea5b-432c-b216-5b4edf614f56/e25cb2a8-0cd7-4c66-84a9-b3abead6e95b/Real_Estate__-_Page_1_(1).png)
+![Example Image](/static/images/model_training_pipeline.png)
 
 For the ML training component, MLFlow played a critical role as a central hub for experiment tracking, model versioning, and serving. This tool allowed for a systematic approach to managing the lifecycle of machine learning models. Here's how it was integrated into the workflow:
 
@@ -70,7 +70,7 @@ System Monitoring of Scrapy Sessions
 
 ## **MLOps**
 
-![Real Estate  - Page 1 (2).png](https://prod-files-secure.s3.us-west-2.amazonaws.com/60e0a12b-ea5b-432c-b216-5b4edf614f56/80e9e5dc-d559-4cf2-b99f-48c450a32439/Real_Estate__-_Page_1_(2).png)
+![Example Image](/static/images/mlops_pipeline.png)
 
 Understanding and mitigating concept drift and data drift are critical for maintaining the performance of ML models in production. Here’s how these challenges were approached:
 
